@@ -1,3 +1,0 @@
-.pioenvs/myespdevice/FrameworkArduino/firmware_msc_fat.c.o: \
- /home/flinux/.platformio/packages/framework-arduinoespressif32/cores/esp32/firmware_msc_fat.c \
- /home/flinux/.platformio/packages/framework-arduinoespressif32/cores/esp32/firmware_msc_fat.h

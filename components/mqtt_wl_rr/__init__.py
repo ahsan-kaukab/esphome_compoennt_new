@@ -25,5 +25,4 @@ def to_code(config):
     cg.add(var.set_mqtt_topic(config[CONF_MQTT_TOPIC]))
     if CONF_MAC_ADDRESS in config:
         cg.add(var.add_mac_address(config[CONF_MAC_ADDRESS]))
-    yield cg.register_component(var, config)
-    #yield mqtt.register_mqtt_component(var, config)
+    yield mqtt.register_mqtt_component(var, config)

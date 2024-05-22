@@ -199,7 +199,7 @@ void setup() {
   my_mqtt_wl_rr->set_component_name("mqtt_wl_rr");
   my_mqtt_wl_rr->set_mqtt_topic("your_device_prefix/mqtt_wl_rr/config");
   my_mqtt_wl_rr->add_mac_address({"00:11:22:33:44:55"});
-  my_mqtt_wl_rr->set_component_source("esphome.coroutine");
+  my_mqtt_wl_rr->set_component_source("mqtt");
   App.register_component(my_mqtt_wl_rr);
   // network:
   //   min_ipv6_addr_count: 0
