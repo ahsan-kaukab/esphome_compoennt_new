@@ -1,0 +1,19 @@
+#pragma once
+#include "esphome/core/macros.h"
+#define ESPHOME_BOARD "esp32dev"
+#define ESPHOME_VARIANT "ESP32"
+#define USE_ARDUINO_VERSION_CODE VERSION_CODE(2, 0, 5)
+#define USE_BINARY_SENSOR
+#define USE_ESP32_BLE
+#define USE_ESP32_BLE_CLIENT
+#define USE_JSON
+#define USE_LOGGER
+#define USE_MDNS
+#define USE_OTA_STATE_CALLBACK
+#define USE_SENSOR
+#define USE_WEBSERVER
+#define USE_WEBSERVER_PORT 80
+#define USE_WEBSERVER_PRIVATE_NETWORK_ACCESS
+#define USE_WEBSERVER_VERSION 2
+#define USE_WIFI
+#define USE_MQTT

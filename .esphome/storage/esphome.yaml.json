@@ -1,0 +1,30 @@
+{
+  "storage_version": 1,
+  "name": "myespdevice",
+  "friendly_name": null,
+  "comment": null,
+  "esphome_version": "2024.5.0",
+  "src_version": 1,
+  "address": "myespdevice.local",
+  "web_port": null,
+  "esp_platform": "ESP32",
+  "build_path": ".esphome/build/myespdevice",
+  "firmware_bin_path": ".esphome/build/myespdevice/.pioenvs/myespdevice/firmware.bin",
+  "loaded_integrations": [
+    "esp32",
+    "esphome",
+    "external_components",
+    "json",
+    "logger",
+    "md5",
+    "mdns",
+    "mqtt",
+    "mqtt_wl_rr",
+    "network",
+    "ota",
+    "preferences",
+    "socket",
+    "wifi"
+  ],
+  "no_mdns": false
+}
