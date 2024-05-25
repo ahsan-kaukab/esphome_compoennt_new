@@ -1,27 +1,104 @@
+# esphome:
+#   name: myespdevice  # Change to avoid underscore warning
+#   platform: ESP32
+#   board: esp32dev
+
+# external_components:
+#   - source: "/home/flinux/Desktop/esphome_component_bthome-master/components"
+  
+# wifi:
+#   ssid: "your_ssid"
+#   password: "your_password"
+
+# mqtt:
+#   broker: "your_mqtt_broker"
+#   username: "your_username"
+#   password: "your_password"
+
+# logger:
+#   level: DEBUG
+
+# ota:
+
+# mqtt_wl_rr:
+#   id: my_mqtt_wl_rr
+#   component_name: "mqtt_wl_rr"
+#   mqtt_topic: "your_device_prefix/mqtt_wl_rr/config"
+#   mac_address: "00:11:22:33:44:55"
+
+substitutions:
+  systemName: bthome-1
+
 esphome:
-  name: myespdevice  # Change to avoid underscore warning
-  platform: ESP32
+  name: $systemName
+
+esp32:
   board: esp32dev
+  # wemos_d1_mini32
 
 external_components:
   - source: "/home/flinux/Desktop/esphome_component_bthome-master/components"
-  
-wifi:
-  ssid: "your_ssid"
-  password: "your_password"
-
-mqtt:
-  broker: "your_mqtt_broker"
-  username: "your_username"
-  password: "your_password"
 
 logger:
-  level: DEBUG
+  level: debug
+  # level: info
 
-ota:
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
 
-mqtt_wl_rr:
-  id: my_mqtt_wl_rr
-  component_name: "mqtt_wl_rr"
-  mqtt_topic: "your_device_prefix/mqtt_wl_rr/config"
-  mac_address: "00:11:22:33:44:55"
+web_server:
+  port: 80
+  ota: false
+
+esp32_ble_tracker:
+  scan_parameters:
+    active: false
+
+bthome_ble_receiver:
+  dump: unmatched
+  devices:
+    - mac_address: AA:BB:CC:DD:EE:FF
+      name_prefix: BTHome Living Room
+    - mac_address: AA:BB:CC:DD:EE:FF
+      name_prefix: BTHome Garage
+    - mac_address: AA:BB:CC:DD:EE:FF
+      dump: all
+
+sensor:
+  - platform: bthome_ble_receiver
+    mac_address: AA:BB:CC:DD:EE:FF
+    sensors:
+      - measurement_type: temperature
+        name: Temperature
+      - measurement_type: humidity
+        name: Humidity
+      - measurement_type: packet_id
+        name: PacketId
+
+  - platform: bthome_ble_receiver
+    mac_address: AA:BB:CC:DD:EE:FF
+    sensors:
+      - measurement_type: temperature
+        name: Temperature
+      - measurement_type: 0x02
+        name: Temperature 2
+        accuracy_decimals: 2
+        unit_of_measurement: °C
+      - measurement_type: 0x02
+        name: Temperature 3
+      - measurement_type: count_4
+        name: Count
+
+  - platform: bthome_ble_receiver
+    mac_address: AA:BB:CC:DD:EE:FF
+    sensors:
+      - measurement_type: temperature
+        name: BTHome Workshop Temperature
+
+binary_sensor:
+  - platform: bthome_ble_receiver
+    mac_address: AA:BB:CC:DD:EE:FF
+    sensors:
+      - measurement_type: opening
+        name: Garage

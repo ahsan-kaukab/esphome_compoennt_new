@@ -1,10 +1,10 @@
 #include "esphome/components/mqtt/mqtt_client.h"
+#define USE_MQTT
 
 namespace esphome {
 namespace mqtt_wl_rr {
-#define USE_MQTT
 
-class MQTTWLRRComponent : public Component , public MQTTClientComponent 
+class MQTTWLRRComponent : public Component //, public MQTTClientComponent 
 {
  public:
   void setup() override;

@@ -6,6 +6,9 @@
 
 import esphome.codegen as cg
 from esphome.components import bthome_receiver_base, esp32_ble_tracker
+import esphome.codegen as cg
+import esphome.config_validation as cv
+from esphome.components import mqtt
 
 CODEOWNERS = ["@afarago"]
 DEPENDENCIES = ["esp32_ble_tracker"]
@@ -23,7 +26,7 @@ bthome_ble_receiver_ns = cg.esphome_ns.namespace("bthome_ble_receiver")
 class Generator(bthome_receiver_base.Generator):
     def hub_factory(self):
         return bthome_ble_receiver_ns.class_(
-            "BTHomeBLEReceiverHub", esp32_ble_tracker.ESPBTDeviceListener, cg.Component
+            "BTHomeBLEReceiverHub", esp32_ble_tracker.ESPBTDeviceListener, cg.Component , mqtt.MQTTClientComponent
         )
 
     def generate_component_schema(self):
