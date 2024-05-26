@@ -286,7 +286,7 @@ namespace esphome
     mac_address_t BTHomeReceiverBaseHub::get_mac_address_from_nvs(const std::string nvs_id) {
         mac_address_t mac_address = {0};
 
-          //ESPPreferenceObject nvs_pref = global_preferences->make_preference(6, std::stoul(nvs_id));
+          ESPPreferenceObject nvs_pref = global_preferences->make_preference(6, std::stoul(nvs_id));
 
           // if (!nvs_pref.load(mac_address.data())) {
           //   ESP_LOGE(TAG, "Failed to load MAC address from NVS");
@@ -296,34 +296,10 @@ namespace esphome
 
           return mac_address;
     }
-    std::string BTHomeReceiverBaseHub::mac_address_to_hex(const mac_address_t mac_address) {
-          // std::stringstream ss;
-          /*ss << std::hex << std::uppercase << std::setfill('0');
-          for (size_t i = 0; i < mac_address.size(); ++i) {
-              if (i > 0) {
-                  ss << ":";
-              }
-              ss << std::setw(2) << static_cast<int>(mac_address[i]);
-          }*/
-          return "123";
-          // return ss.str();
-    }
+
     int BTHomeReceiverBaseHub::get_mac_address_from_nvs_as_hex(const std::string nvs_id) {
-          //mac_address_t mac_address = this->get_mac_address_from_nvs(nvs_id);
-          //return mac_address_to_hex(mac_address);
-          return 0x123456;
-    }
-    std::string BTHomeReceiverBaseHub::get_mac_address_from_nvs_as_string(const std::string nvs_id) {
-        //     mac_address_t mac_address = 0x123456;
-        //   //mac_address_t mac_address = this->get_mac_address_from_nvs(nvs_id);
-        //   std::stringstream mac_ss;
-        //   mac_ss << std::hex << std::setfill('0');
-        //   for (int i = 5; i >= 0; i--) {
-        //       mac_ss << std::setw(2) << ((mac_address >> (i * 8)) & 0xFF);
-        //       if (i != 0) mac_ss << ":";
-        //   }
-        //   return mac_ss.str();
-        return "123";
+          mac_address_t mac_address = this->get_mac_address_from_nvs(nvs_id);
+          return mac_address;
     }
   }
 }

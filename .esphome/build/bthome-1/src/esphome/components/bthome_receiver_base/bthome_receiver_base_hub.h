@@ -48,6 +48,11 @@ namespace esphome
     class BTHomeReceiverBaseHub : public Component, public BTHomeReceiverBaseEventTarget
     {
     public:
+      BTHomeReceiverBaseHub() {
+        // Constructor logic here
+        // If the setup logic is simple and does not depend on the ESPHome framework being fully initialized, call it here.
+        this->setup();
+      }
       DumpOption_e get_dump_option() { return this->dump_option_; };
       void set_dump_option(DumpOption_e value) { this->dump_option_ = value; };
       void set_dump_packets_option(bool value) { this->dump_packets_option_ = value; };
