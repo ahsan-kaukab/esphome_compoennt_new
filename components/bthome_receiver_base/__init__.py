@@ -163,7 +163,7 @@ class Generator:
         return cv.Schema(
             {
                 cv.GenerateID(): cv.declare_id(self.device_class_factory()),
-                cv.Required(CONF_MAC_ADDRESS): cv.mac_address,
+                cv.Required(CONF_MAC_ADDRESS): cv.string,
                 cv.Optional(CONF_NAME_PREFIX): cv.string,
                 cv.Optional(CONF_DUMP_OPTION): cv.enum(
                     DUMP_OPTION, upper=True, space="_"
@@ -189,11 +189,14 @@ class Generator:
         return CONFIG_SCHEMA
 
     async def to_code_automations(self, config, var):
+        #par = await cg.get_variable(config[self.hubid_])
         for conf in config.get(CONF_ON_PACKET, []):
             trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
             if CONF_MAC_ADDRESS in config:
                 cg.add(trigger.set_parent_device_address(
-                    config[CONF_MAC_ADDRESS].as_hex))
+                    #config[CONF_MAC_ADDRESS].as_hex))
+                    var.get_mac_address_from_nvs_as_hex(config[CONF_MAC_ADDRESS])))
+                    #"AA:BB:CC:DD:EE:FF".as_hex))
             await automation.build_automation(
                 trigger,
                 [
@@ -211,7 +214,9 @@ class Generator:
             trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
             if CONF_MAC_ADDRESS in config:
                 cg.add(trigger.set_parent_device_address(
-                    config[CONF_MAC_ADDRESS].as_hex))
+                    #config[CONF_MAC_ADDRESS].as_hex))
+                    var.get_mac_address_from_nvs_as_hex(config[CONF_MAC_ADDRESS])))
+                    #"AA:BB:CC:DD:EE:FF".as_hex))
             await automation.build_automation(
                 trigger,
                 [
@@ -230,7 +235,9 @@ class Generator:
                     HexInt(device_event_v["event_id"])))
                 if CONF_MAC_ADDRESS in config:
                     cg.add(trigger.set_parent_device_address(
-                        config[CONF_MAC_ADDRESS].as_hex))
+                        #config[CONF_MAC_ADDRESS].as_hex))
+                        var.get_mac_address_from_nvs_as_hex(config[CONF_MAC_ADDRESS])))
+                        #"AA:BB:CC:DD:EE:FF".as_hex))
                 await automation.build_automation(
                     trigger,
                     [
@@ -242,13 +249,14 @@ class Generator:
 
     async def to_code_device(self, parent, config, ID_PROP):
         # add to device registry
-        mac_address_str = str(config[CONF_MAC_ADDRESS])
+        mac_address_str = str(parent.get_mac_address_from_nvs_as_hex(config[CONF_MAC_ADDRESS]))
+        #mac_address_str = str("AA:BB:CC:DD:EE:FF")
         if not mac_address_str in self.devices_by_addr_:
             var = cg.Pvariable(
                 config[ID_PROP],
                 ExplicitClassPtrCast(
                     self.device_class_factory(),
-                    parent.add_device(config[CONF_MAC_ADDRESS].as_hex),
+                    parent.add_device(parent.get_mac_address_from_nvs_as_hex(config[CONF_MAC_ADDRESS])),
                 ),
             )
             await cg.register_component(var, config)
@@ -276,7 +284,9 @@ class Generator:
 
     async def to_code(self, config):
         var = cg.new_Pvariable(config[CONF_ID])
+        #paren = await cg.get_variable(config[self.hubid_])
         await cg.register_component(var, config)
+        #paren = await cg.get_variable(config[self.hubid_])
 
         if CONF_DUMP_OPTION in config:
             cg.add(var.set_dump_option(config[CONF_DUMP_OPTION]))
@@ -314,7 +324,7 @@ class Generator:
                 cv.GenerateID(CONF_BTHomeReceiverBaseDevice_ID): cv.declare_id(
                     self.device_class_factory()
                 ),
-                cv.Required(CONF_MAC_ADDRESS): cv.mac_address,
+                cv.Required(CONF_MAC_ADDRESS): cv.string,
                 cv.Required(CONF_SENSORS): cv.All(
                     cv.ensure_list(
                         self.sensor_schema_subsensor_factory(
@@ -386,7 +396,7 @@ class Generator:
         async def to_code(config):
             paren = await cg.get_variable(config[self.hubid_])
 
-            mac_address = config[CONF_MAC_ADDRESS]
+            #mac_address =  paren.get_mac_address_from_nvs(config[CONF_MAC_ADDRESS])
             devs = await self.to_code_device(paren, config, CONF_BTHomeReceiverBaseDevice_ID)
 
             # check if sensors are in order, rearrange them if needed
@@ -480,7 +490,7 @@ class Generator:
                 cg.add(
                     paren.add_sensor(
                         devs.get_device(
-                        ), config[CONF_MAC_ADDRESS].as_hex, var_item
+                        ), paren.get_mac_address_from_nvs_as_hex(config[CONF_MAC_ADDRESS]), var_item
                     )
                 )
 

@@ -182,7 +182,7 @@ void setup() {
   bthome_ble_receiver_bthomeblereceiverhub_id->set_component_source("bthome_receiver_base");
   App.register_component(bthome_ble_receiver_bthomeblereceiverhub_id);
   bthome_ble_receiver_bthomeblereceiverhub_id->set_dump_option(bthome_receiver_base::DumpOption_Unmatched);
-  bthome_receiver_base_bthomereceiverbasedevice_id = (bthome_receiver_base::BTHomeReceiverBaseDevice *)(bthome_ble_receiver_bthomeblereceiverhub_id->add_device(0xAABBCCDDEEFFULL));
+  bthome_receiver_base_bthomereceiverbasedevice_id = (bthome_receiver_base::BTHomeReceiverBaseDevice *)(bthome_ble_receiver_bthomeblereceiverhub_id->add_device(bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF")));
   bthome_receiver_base_bthomereceiverbasedevice_id->set_component_source("bthome_receiver_base");
   App.register_component(bthome_receiver_base_bthomereceiverbasedevice_id);
   bthome_receiver_base_bthomereceiverbasedevice_id->set_name_prefix("BTHome Living Room");
@@ -228,7 +228,7 @@ void setup() {
   bthome_receiver_base_bthomereceiverbasesensor_id_3->set_disabled_by_default(false);
   bthome_receiver_base_bthomereceiverbasesensor_id_3->set_force_update(false);
   bthome_receiver_base_bthomereceiverbasesensor_id_3->set_measurement_type(0x00);
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, 0xAABBCCDDEEFFULL, bthome_receiver_base_bthomereceiverbasesensor_id_3);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id_3);
   bthome_receiver_base_bthomereceiverbasesensor_id = new bthome_receiver_base::BTHomeReceiverBaseSensor();
   App.register_sensor(bthome_receiver_base_bthomereceiverbasesensor_id);
   bthome_receiver_base_bthomereceiverbasesensor_id->set_name("BTHome Living Room Temperature");
@@ -239,7 +239,7 @@ void setup() {
   bthome_receiver_base_bthomereceiverbasesensor_id->set_accuracy_decimals(2);
   bthome_receiver_base_bthomereceiverbasesensor_id->set_unit_of_measurement("\302\260C");
   bthome_receiver_base_bthomereceiverbasesensor_id->set_device_class("temperature");
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, 0xAABBCCDDEEFFULL, bthome_receiver_base_bthomereceiverbasesensor_id);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id);
   bthome_receiver_base_bthomereceiverbasesensor_id_2 = new bthome_receiver_base::BTHomeReceiverBaseSensor();
   App.register_sensor(bthome_receiver_base_bthomereceiverbasesensor_id_2);
   bthome_receiver_base_bthomereceiverbasesensor_id_2->set_name("BTHome Living Room Humidity");
@@ -250,7 +250,7 @@ void setup() {
   bthome_receiver_base_bthomereceiverbasesensor_id_2->set_accuracy_decimals(2);
   bthome_receiver_base_bthomereceiverbasesensor_id_2->set_unit_of_measurement("%");
   bthome_receiver_base_bthomereceiverbasesensor_id_2->set_device_class("humidity");
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, 0xAABBCCDDEEFFULL, bthome_receiver_base_bthomereceiverbasesensor_id_2);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id_2);
   // sensor.bthome_ble_receiver:
   //   platform: bthome_ble_receiver
   //   mac_address: AA:BB:CC:DD:EE:FF
@@ -297,7 +297,7 @@ void setup() {
   bthome_receiver_base_bthomereceiverbasesensor_id_5->set_accuracy_decimals(2);
   bthome_receiver_base_bthomereceiverbasesensor_id_5->set_unit_of_measurement("\302\260C");
   bthome_receiver_base_bthomereceiverbasesensor_id_5->set_device_class("temperature");
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, 0xAABBCCDDEEFFULL, bthome_receiver_base_bthomereceiverbasesensor_id_5);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id_5);
   bthome_receiver_base_bthomereceiverbasesensor_id_6 = new bthome_receiver_base::BTHomeReceiverBaseSensor();
   App.register_sensor(bthome_receiver_base_bthomereceiverbasesensor_id_6);
   bthome_receiver_base_bthomereceiverbasesensor_id_6->set_name("BTHome Living Room Temperature 2");
@@ -307,7 +307,7 @@ void setup() {
   bthome_receiver_base_bthomereceiverbasesensor_id_6->set_accuracy_decimals(2);
   bthome_receiver_base_bthomereceiverbasesensor_id_6->set_force_update(false);
   bthome_receiver_base_bthomereceiverbasesensor_id_6->set_measurement_type(2);
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, 0xAABBCCDDEEFFULL, bthome_receiver_base_bthomereceiverbasesensor_id_6);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id_6);
   bthome_receiver_base_bthomereceiverbasesensor_id_7 = new bthome_receiver_base::BTHomeReceiverBaseSensor();
   App.register_sensor(bthome_receiver_base_bthomereceiverbasesensor_id_7);
   bthome_receiver_base_bthomereceiverbasesensor_id_7->set_name("BTHome Living Room Temperature 3");
@@ -315,7 +315,7 @@ void setup() {
   bthome_receiver_base_bthomereceiverbasesensor_id_7->set_disabled_by_default(false);
   bthome_receiver_base_bthomereceiverbasesensor_id_7->set_force_update(false);
   bthome_receiver_base_bthomereceiverbasesensor_id_7->set_measurement_type(2);
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, 0xAABBCCDDEEFFULL, bthome_receiver_base_bthomereceiverbasesensor_id_7);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id_7);
   bthome_receiver_base_bthomereceiverbasesensor_id_8 = new bthome_receiver_base::BTHomeReceiverBaseSensor();
   App.register_sensor(bthome_receiver_base_bthomereceiverbasesensor_id_8);
   bthome_receiver_base_bthomereceiverbasesensor_id_8->set_name("BTHome Living Room Count");
@@ -323,7 +323,7 @@ void setup() {
   bthome_receiver_base_bthomereceiverbasesensor_id_8->set_disabled_by_default(false);
   bthome_receiver_base_bthomereceiverbasesensor_id_8->set_force_update(false);
   bthome_receiver_base_bthomereceiverbasesensor_id_8->set_measurement_type(0x3E);
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, 0xAABBCCDDEEFFULL, bthome_receiver_base_bthomereceiverbasesensor_id_8);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id_8);
   // sensor.bthome_ble_receiver:
   //   platform: bthome_ble_receiver
   //   mac_address: AA:BB:CC:DD:EE:FF
@@ -350,7 +350,7 @@ void setup() {
   bthome_receiver_base_bthomereceiverbasesensor_id_10->set_accuracy_decimals(2);
   bthome_receiver_base_bthomereceiverbasesensor_id_10->set_unit_of_measurement("\302\260C");
   bthome_receiver_base_bthomereceiverbasesensor_id_10->set_device_class("temperature");
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, 0xAABBCCDDEEFFULL, bthome_receiver_base_bthomereceiverbasesensor_id_10);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id_10);
   // binary_sensor.bthome_ble_receiver:
   //   platform: bthome_ble_receiver
   //   mac_address: AA:BB:CC:DD:EE:FF
@@ -372,7 +372,7 @@ void setup() {
   bthome_receiver_base_bthomereceiverbasebinarysensor_id->set_disabled_by_default(false);
   bthome_receiver_base_bthomereceiverbasebinarysensor_id->set_measurement_type(0x11);
   bthome_receiver_base_bthomereceiverbasebinarysensor_id->set_device_class("opening");
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, 0xAABBCCDDEEFFULL, bthome_receiver_base_bthomereceiverbasebinarysensor_id);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasebinarysensor_id);
   // network:
   //   min_ipv6_addr_count: 0
   // esp32_ble:

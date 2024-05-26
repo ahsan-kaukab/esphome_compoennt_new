@@ -55,7 +55,6 @@ namespace esphome
       float get_setup_priority() const override { return setup_priority::DATA; }
       string load_mac_address(string key);
       BTHomeReceiverBaseDevice *add_device(bthome_base::mac_address_t address);
-      //BTHomeReceiverBaseDevice *add_device(uint32 char_address);
       BTHomeReceiverBaseDevice *add_sensor(BTHomeReceiverBaseDevice *btdevice, bthome_base::mac_address_t address, BTHomeReceiverBaseBaseSensor *sensor);
       void setup();
       void on_mqtt_message(const std::string &topic, const std::string &payload); 
@@ -63,6 +62,10 @@ namespace esphome
       void save_whitelist(); 
       uint32_t get_unique_id();
       string get_base_topic();
+      mac_address_t get_mac_address_from_nvs(const std::string nvs_id);
+      std::string get_mac_address_from_nvs_as_string(const std::string nvs_id);
+      std::string mac_address_to_hex(const mac_address_t mac_address);
+      int get_mac_address_from_nvs_as_hex(const std::string nvs_id);
 
     protected:
       virtual optional<uint8_t> parse_message_bthome_(const bthome_base::mac_address_t address, const uint8_t *payload_data, const uint32_t payload_length, bthome_base::BTProtoVersion_e proto);
