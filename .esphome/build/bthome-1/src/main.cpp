@@ -167,13 +167,16 @@ void setup() {
   // bthome_ble_receiver:
   //   dump: UNMATCHED
   //   devices:
-  //   - mac_address: AA:BB:CC:DD:EE:FF
+  //   - mqtt_topic: Hello
+  //     mac_address: AA:BB:CC:DD:EE:FF
   //     name_prefix: BTHome Living Room
   //     id: bthome_receiver_base_bthomereceiverbasedevice_id
-  //   - mac_address: AA:BB:CC:DD:EE:FF
+  //   - mqtt_topic: Hello
+  //     mac_address: AA:BB:CC:DD:EE:FF
   //     name_prefix: BTHome Garage
   //     id: bthome_receiver_base_bthomereceiverbasedevice_id_2
-  //   - mac_address: AA:BB:CC:DD:EE:FF
+  //   - mqtt_topic: Hello
+  //     mac_address: AA:BB:CC:DD:EE:FF
   //     dump: ALL
   //     id: bthome_receiver_base_bthomereceiverbasedevice_id_3
   //   id: bthome_ble_receiver_bthomeblereceiverhub_id

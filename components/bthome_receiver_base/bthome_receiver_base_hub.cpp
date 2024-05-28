@@ -16,10 +16,11 @@
 #include "bthome_receiver_base_hub.h"
 #include "esphome/core/log.h"
 #include "esphome/core/preferences.h"
-//#include "esphome/components/mqtt/mqtt_client.h"
+#include "esphome/components/mqtt/mqtt_client.h"
 #include <vector>
 #include <string>
 #include <ArduinoJson.h>
+//extern MQTTClientComponent *global_mqtt_client;
 
 
 namespace esphome
@@ -184,9 +185,9 @@ namespace esphome
       // Subscribe to the MQTT topic
       std::string topic = this->get_base_topic() + "/ble_whitelist/config";
       ESP_LOGD(TAG, "Subscribing to topic: %s", topic.c_str());
-      // mqtt::global_mqtt_client->subscribe(topic, [this](const std::string &topic, const std::string &payload) {
-      //   this->on_mqtt_message(topic, payload);
-      // });
+      global_mqtt_client->subscribe(topic, [this](const std::string &topic, const std::string &payload) {
+        this->on_mqtt_message(topic, payload);
+      });
     }
 
     void BTHomeReceiverBaseHub::on_mqtt_message(const std::string &topic, const std::string &payload) {

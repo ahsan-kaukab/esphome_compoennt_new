@@ -11,13 +11,19 @@ from esphome.components import mqtt
 
 from esphome.const import CONF_ID, CONF_NAME
 from esphome.cpp_generator import RawExpression, Expression, SafeExpType, safe_exp
-import esphome.codegen as cg
-import esphome.config_validation as cv
 from esphome.config_validation import hex_int_range, has_at_least_one_key
 from esphome import automation
 from esphome.components import binary_sensor, sensor
-DEPENDENCIES = ['mqtt']
-AUTO_LOAD = ['mqtt']
+
+
+# DEPENDENCIES = ['mqtt']
+# AUTO_LOAD = [
+#     "bthome_base",
+#     "binary_sensor",
+#     "sensor",
+# ]
+# DEPENDENCIES = ['mqtt']
+# AUTO_LOAD = ['mqtt']
 
 from esphome.const import (
     CONF_ID,
@@ -29,6 +35,7 @@ from esphome.const import (
     CONF_UNIT_OF_MEASUREMENT,
     CONF_DEVICE_CLASS,
     CONF_ICON,
+    CONF_MQTT_TOPIC
 )
 from esphome.core import CORE, HexInt, coroutine_with_priority
 from esphome.components.bthome_base.const import (
@@ -48,24 +55,16 @@ CONF_ON_PACKET = "on_packet"
 CONF_ON_EVENT = "on_event"
 CONF_ON_EVENT_PREFIX = "on_"
 
-CODEOWNERS = ["@afarago"]
-DEPENDENCIES = []
-AUTO_LOAD = [
-    "bthome_base",
-    "binary_sensor",
-    "sensor",
-]
-
 bthome_base_ns = cg.global_ns.namespace("bthome_base")
 bthome_receiver_base_ns = cg.esphome_ns.namespace("bthome_receiver_base")
 BTHomeReceiverBaseDevice = bthome_receiver_base_ns.class_(
-    "BTHomeReceiverBaseDevice", cg.Component, mqtt.MQTTClientComponent
+    "BTHomeReceiverBaseDevice", cg.Component  , mqtt.MQTTClientComponent
 )
 PacketTrigger = bthome_receiver_base_ns.class_(
-    "PacketTrigger", automation.Trigger.template(), mqtt.MQTTClientComponent
+    "PacketTrigger", automation.Trigger.template() ,  mqtt.MQTTClientComponent
 )
 EventTrigger = bthome_receiver_base_ns.class_(
-    "EventTrigger", automation.Trigger.template(), mqtt.MQTTClientComponent
+    "EventTrigger", automation.Trigger.template() , mqtt.MQTTClientComponent
 )
 BTHomeMeasurementRecord = bthome_base_ns.struct("bthome_measurement_record_t")
 BTHomeMeasurementEventRecord = bthome_base_ns.struct(
@@ -112,7 +111,16 @@ class DeviceStorage:
 
     def get_name_prefix(self):
         return self.name_prefix_
+    
+# class BTHomeReceiverBaseHub(mqtt.MQTTClientComponent, cg.Component):
+#      # Other class methods and attributes...
 
+#     async def setup(self):
+#         await super().setup()  # Call the setup method of the parent class
+
+#         # Your MQTT setup code goes here
+#         # Example:
+#         await self.subscribe("topic")
 
 class Generator:
     hub_ = {}
@@ -165,6 +173,7 @@ class Generator:
                 cv.GenerateID(): cv.declare_id(self.device_class_factory()),
                 cv.Required(CONF_MAC_ADDRESS): cv.string,
                 cv.Optional(CONF_NAME_PREFIX): cv.string,
+                cv.Required(CONF_MQTT_TOPIC): cv.string,
                 cv.Optional(CONF_DUMP_OPTION): cv.enum(
                     DUMP_OPTION, upper=True, space="_"
                 )
@@ -187,7 +196,7 @@ class Generator:
         ).extend(self.event_schema).extend(cv.COMPONENT_SCHEMA)
 
         return CONFIG_SCHEMA
-
+    
     async def to_code_automations(self, config, var):
         #par = await cg.get_variable(config[self.hubid_])
         for conf in config.get(CONF_ON_PACKET, []):
@@ -259,7 +268,9 @@ class Generator:
                     parent.add_device(parent.get_mac_address_from_nvs_as_hex(config[CONF_MAC_ADDRESS])),
                 ),
             )
+            #await cg.register_component(var, config)
             await cg.register_component(var, config)
+            mqtt.register_mqtt_component(var, config)
 
             name_prefix_str = (
                 str(config[CONF_NAME_PREFIX]
@@ -284,9 +295,12 @@ class Generator:
 
     async def to_code(self, config):
         var = cg.new_Pvariable(config[CONF_ID])
-        #paren = await cg.get_variable(config[self.hubid_])
+        #await cg.register_component(var, config)
+        #cg.add(var.set_mqtt_topic("hello"))
+        #cg.add(var.set_mqtt_topic(config[CONF_MQTT_TOPIC]))
         await cg.register_component(var, config)
-        #paren = await cg.get_variable(config[self.hubid_])
+        mqtt.register_mqtt_component(var, config)
+        #cg.add(var.set_hub(self.get_hub()))
 
         if CONF_DUMP_OPTION in config:
             cg.add(var.set_dump_option(config[CONF_DUMP_OPTION]))
@@ -386,7 +400,7 @@ class Generator:
             return value2
 
         ReceiverSensor = bthome_receiver_base_ns.class_(
-            cpp_classname, sensor_base, cg.Component, mqtt.MQTTClientComponent
+            cpp_classname, sensor_base, cg.Component  ,  mqtt.MQTTClientComponent
         )
 
         CONFIG_SCHEMA = self.sensor_schema_factory(
@@ -493,5 +507,6 @@ class Generator:
                         ), paren.get_mac_address_from_nvs_as_hex(config[CONF_MAC_ADDRESS]), var_item
                     )
                 )
+            #yield mqtt.register_mqtt_component(var, config)
 
         return CONFIG_SCHEMA, to_code

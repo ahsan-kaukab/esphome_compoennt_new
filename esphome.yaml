@@ -58,15 +58,19 @@ esp32_ble_tracker:
 bthome_ble_receiver:
   dump: unmatched
   devices:
-    - mac_address: AA:BB:CC:DD:EE:FF
+    - mqtt_topic : Hello
+      mac_address: AA:BB:CC:DD:EE:FF
       name_prefix: BTHome Living Room
-    - mac_address: AA:BB:CC:DD:EE:FF
+    - mqtt_topic : Hello
+      mac_address: AA:BB:CC:DD:EE:FF
       name_prefix: BTHome Garage
-    - mac_address: AA:BB:CC:DD:EE:FF
+    - mqtt_topic : Hello
+      mac_address: AA:BB:CC:DD:EE:FF
       dump: all
 
 sensor:
   - platform: bthome_ble_receiver
+    #mqtt_topic : Hello
     mac_address: AA:BB:CC:DD:EE:FF
     sensors:
       - measurement_type: temperature
@@ -77,6 +81,7 @@ sensor:
         name: PacketId
 
   - platform: bthome_ble_receiver
+    #mqtt_topic : Hello
     mac_address: AA:BB:CC:DD:EE:FF
     sensors:
       - measurement_type: temperature
@@ -91,6 +96,7 @@ sensor:
         name: Count
 
   - platform: bthome_ble_receiver
+    #mqtt_topic : Hello
     mac_address: AA:BB:CC:DD:EE:FF
     sensors:
       - measurement_type: temperature
@@ -98,6 +104,7 @@ sensor:
 
 binary_sensor:
   - platform: bthome_ble_receiver
+    #mqtt_topic : Hello
     mac_address: AA:BB:CC:DD:EE:FF
     sensors:
       - measurement_type: opening
