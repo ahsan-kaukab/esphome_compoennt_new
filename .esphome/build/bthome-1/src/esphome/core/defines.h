@@ -9,6 +9,8 @@
 #define USE_JSON
 #define USE_LOGGER
 #define USE_MDNS
+#define USE_MQTT
+#define USE_MQTT_ABBREVIATIONS
 #define USE_OTA_STATE_CALLBACK
 #define USE_SENSOR
 #define USE_WEBSERVER

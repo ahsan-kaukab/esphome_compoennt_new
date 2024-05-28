@@ -24,6 +24,7 @@
     "json",
     "logger",
     "mdns",
+    "mqtt",
     "network",
     "preferences",
     "sensor",

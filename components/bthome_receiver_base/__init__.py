@@ -10,20 +10,10 @@ import esphome.config_validation as cv
 from esphome.components import mqtt
 
 from esphome.const import CONF_ID, CONF_NAME
-from esphome.cpp_generator import RawExpression, Expression, SafeExpType, safe_exp
+from esphome.cpp_generator import Expression, SafeExpType, safe_exp
 from esphome.config_validation import hex_int_range, has_at_least_one_key
 from esphome import automation
 from esphome.components import binary_sensor, sensor
-
-
-# DEPENDENCIES = ['mqtt']
-# AUTO_LOAD = [
-#     "bthome_base",
-#     "binary_sensor",
-#     "sensor",
-# ]
-# DEPENDENCIES = ['mqtt']
-# AUTO_LOAD = ['mqtt']
 
 from esphome.const import (
     CONF_ID,
@@ -92,7 +82,6 @@ class ExplicitClassPtrCast(Expression):
         # order as python one
         return f"({self.classop})({self.xhs})"
 
-
 class DeviceStorage:
     device_ = {}
     mac_address_ = {}
@@ -112,16 +101,6 @@ class DeviceStorage:
     def get_name_prefix(self):
         return self.name_prefix_
     
-# class BTHomeReceiverBaseHub(mqtt.MQTTClientComponent, cg.Component):
-#      # Other class methods and attributes...
-
-#     async def setup(self):
-#         await super().setup()  # Call the setup method of the parent class
-
-#         # Your MQTT setup code goes here
-#         # Example:
-#         await self.subscribe("topic")
-
 class Generator:
     hub_ = {}
     hubid_ = {}
@@ -178,7 +157,8 @@ class Generator:
                     DUMP_OPTION, upper=True, space="_"
                 )
             }
-        ).extend(self.event_schema)
+        #).extend(self.event_schema)
+        ).extend(cv.COMPONENT_SCHEMA)
 
     def generate_component_schema(self):
 
@@ -269,8 +249,8 @@ class Generator:
                 ),
             )
             #await cg.register_component(var, config)
-            await cg.register_component(var, config)
-            mqtt.register_mqtt_component(var, config)
+            #await cg.register_component(var, config)
+            await mqtt.register_mqtt_component(var, config)
 
             name_prefix_str = (
                 str(config[CONF_NAME_PREFIX]
@@ -298,8 +278,8 @@ class Generator:
         #await cg.register_component(var, config)
         #cg.add(var.set_mqtt_topic("hello"))
         #cg.add(var.set_mqtt_topic(config[CONF_MQTT_TOPIC]))
-        await cg.register_component(var, config)
-        mqtt.register_mqtt_component(var, config)
+        #await cg.register_component(var, config) 
+        await mqtt.register_mqtt_component(var, config)
         #cg.add(var.set_hub(self.get_hub()))
 
         if CONF_DUMP_OPTION in config:

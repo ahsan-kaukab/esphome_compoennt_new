@@ -175,6 +175,8 @@
  src/esphome/components/logger/logger.h \
  /home/flinux/.platformio/packages/framework-arduinoespressif32/cores/esp32/HardwareSerial.h \
  src/esphome/components/mdns/mdns_component.h \
+ src/esphome/components/mqtt/custom_mqtt_device.h \
+ src/esphome/components/mqtt/mqtt_client.h \
  src/esphome/components/network/ip_address.h \
  /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_netif/include/esp_netif.h \
  /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_wifi/include/esp_wifi_types.h \
@@ -212,6 +214,34 @@
  /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/ip6_zone.h \
  /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/include/apps/dhcpserver/dhcpserver.h \
  /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_netif/include/esp_netif_sta_list.h \
+ src/esphome/components/mqtt/mqtt_backend_esp32.h \
+ /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/mqtt/esp-mqtt/include/mqtt_client.h \
+ /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_event/include/esp_event.h \
+ /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_event/include/esp_event_base.h \
+ /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_event/include/esp_event_legacy.h \
+ src/esphome/components/mqtt/mqtt_backend.h \
+ src/esphome/components/mqtt/mqtt_backend_esp8266.h \
+ src/esphome/components/mqtt/mqtt_backend_libretiny.h \
+ src/esphome/components/mqtt/mqtt_binary_sensor.h \
+ src/esphome/components/mqtt/mqtt_component.h \
+ src/esphome/components/mqtt/mqtt_button.h \
+ src/esphome/components/mqtt/mqtt_climate.h \
+ src/esphome/components/mqtt/mqtt_const.h \
+ src/esphome/components/mqtt/mqtt_cover.h \
+ src/esphome/components/mqtt/mqtt_date.h \
+ src/esphome/components/mqtt/mqtt_datetime.h \
+ src/esphome/components/mqtt/mqtt_event.h \
+ src/esphome/components/mqtt/mqtt_fan.h \
+ src/esphome/components/mqtt/mqtt_light.h \
+ src/esphome/components/mqtt/mqtt_lock.h \
+ src/esphome/components/mqtt/mqtt_number.h \
+ src/esphome/components/mqtt/mqtt_select.h \
+ src/esphome/components/mqtt/mqtt_sensor.h \
+ src/esphome/components/mqtt/mqtt_switch.h \
+ src/esphome/components/mqtt/mqtt_text.h \
+ src/esphome/components/mqtt/mqtt_text_sensor.h \
+ src/esphome/components/mqtt/mqtt_time.h \
+ src/esphome/components/mqtt/mqtt_valve.h \
  src/esphome/components/network/util.h \
  src/esphome/components/preferences/syncer.h \
  src/esphome/components/sensor/automation.h \
@@ -230,9 +260,6 @@
  /home/flinux/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiType.h \
  /home/flinux/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiSTA.h \
  /home/flinux/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiGeneric.h \
- /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_event/include/esp_event.h \
- /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_event/include/esp_event_base.h \
- /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_event/include/esp_event_legacy.h \
  /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_wifi/include/esp_smartconfig.h \
  /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/wifi_provisioning/include/wifi_provisioning/manager.h \
  /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/protocomm/include/common/protocomm.h \

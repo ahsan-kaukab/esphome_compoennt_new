@@ -185,7 +185,7 @@ namespace esphome
       // Subscribe to the MQTT topic
       std::string topic = this->get_base_topic() + "/ble_whitelist/config";
       ESP_LOGD(TAG, "Subscribing to topic: %s", topic.c_str());
-      global_mqtt_client->subscribe(topic, [this](const std::string &topic, const std::string &payload) {
+      mqtt::global_mqtt_client->subscribe(topic, [this](const std::string &topic, const std::string &payload) {
         this->on_mqtt_message(topic, payload);
       });
     }
