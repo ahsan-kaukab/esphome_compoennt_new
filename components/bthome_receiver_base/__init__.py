@@ -25,7 +25,7 @@ from esphome.const import (
     CONF_UNIT_OF_MEASUREMENT,
     CONF_DEVICE_CLASS,
     CONF_ICON,
-    CONF_MQTT_TOPIC
+    #CONF_MQTT_TOPIC
 )
 from esphome.core import CORE, HexInt, coroutine_with_priority
 from esphome.components.bthome_base.const import (
@@ -152,7 +152,7 @@ class Generator:
                 cv.GenerateID(): cv.declare_id(self.device_class_factory()),
                 cv.Required(CONF_MAC_ADDRESS): cv.string,
                 cv.Optional(CONF_NAME_PREFIX): cv.string,
-                cv.Required(CONF_MQTT_TOPIC): cv.string,
+                #cv.Required(CONF_MQTT_TOPIC): cv.string,
                 cv.Optional(CONF_DUMP_OPTION): cv.enum(
                     DUMP_OPTION, upper=True, space="_"
                 )
@@ -389,8 +389,6 @@ class Generator:
 
         async def to_code(config):
             paren = await cg.get_variable(config[self.hubid_])
-
-            #mac_address =  paren.get_mac_address_from_nvs(config[CONF_MAC_ADDRESS])
             devs = await self.to_code_device(paren, config, CONF_BTHomeReceiverBaseDevice_ID)
 
             # check if sensors are in order, rearrange them if needed
