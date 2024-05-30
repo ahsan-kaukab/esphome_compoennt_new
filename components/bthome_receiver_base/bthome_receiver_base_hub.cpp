@@ -20,6 +20,7 @@
 #include <vector>
 #include <string>
 #include <ArduinoJson.h>
+#include <sstream>
 //extern MQTTClientComponent *global_mqtt_client;
 
 
@@ -56,28 +57,6 @@ namespace esphome
       bool device_header_reported = false;
       measurement_log_handler_t measurement_log_handler = [&](const bthome_measurement_record_t measurement, const bool matched)
       {
-#ifdef ESPHOME_LOG_HAS_DEBUG
-        if (
-            (this->get_dump_option() == DumpOption_All || (!matched && (this->get_dump_option() == DumpOption_Unmatched))) ||
-            (btdevice != NULL &&
-             (btdevice->get_dump_option() == DumpOption_All || (!matched && (btdevice->get_dump_option() == DumpOption_Unmatched)))))
-        {
-          if (!device_header_reported)
-          {
-            ESP_LOGD(TAG, "Data received from %s %s",
-                     bthome_base::addr64_to_str(address).c_str(),
-                     btdevice ? btdevice->get_name_prefix().c_str() : "");
-            device_header_reported = true;
-          }
-          if (measurement.is_value)
-            ESP_LOGD(TAG, " - measure_type: 0x%02x = value: %0.3f%s",
-                     measurement.d.value.id, measurement.d.value.value,
-                     matched ? "" : ", unmatched");
-          else
-            ESP_LOGD(TAG, " - id: 0x%02x = event_type %d, value: %d",
-                     measurement.d.event.device_type, measurement.d.event.event_type, measurement.d.event.steps);
-        }
-#endif // ESPHOME_LOG_HAS_DEBUG
       };
 
       // report events - trigger automations
@@ -169,22 +148,19 @@ namespace esphome
     uint32_t BTHomeReceiverBaseHub::get_unique_id () {
         // Implement a method to return a unique identifier
         // This is just an example. Adjust as needed.
-        return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(this));
+        return 2048;
+        //return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(this));
     }
 
     //////
-    void BTHomeReceiverBaseHub::setup() {
-      // ESP_LOGCONFIG(TAG, "Setting up BTHomeReceiverBaseDevice...");
-      
+    void BTHomeReceiverBaseHub::setup() {    
       // // Load the whitelist from NVS
-      this->nvs_whitelist = global_preferences->make_preference(1024, this->get_unique_id());
-
-
+      this->nvs_whitelist = global_preferences->make_preference(512, this->get_unique_id());
       this->load_whitelist();
 
       // Subscribe to the MQTT topic
-      std::string topic = this->get_base_topic() + "/ble_whitelist/config";
-      ESP_LOGD(TAG, "Subscribing to topic: %s", topic.c_str());
+      std::string topic = this->get_base_topic() + "/BTHomeReceiverBaseHub/config";
+      //ESP_LOGD(TAG, "Subscribing to topic: %s", topic.c_str());
       mqtt::global_mqtt_client->subscribe(topic, [this](const std::string &topic, const std::string &payload) {
         this->on_mqtt_message(topic, payload);
       });
@@ -192,15 +168,15 @@ namespace esphome
 
     void BTHomeReceiverBaseHub::on_mqtt_message(const std::string &topic, const std::string &payload) {
       // ESP_LOGD(TAG, "Received MQTT message on topic %s", topic.c_str());
-      ESP_LOGD(TAG, "Payload: %s", payload.c_str());
+      //ESP_LOGD(TAG, "Payload: %s", payload.c_str());
       
       // Parse JSON payload
-      StaticJsonDocument<1024> json;
+      StaticJsonDocument<512> json;
       DeserializationError error = deserializeJson(json, payload);
-      if (error) {
-        ESP_LOGE(TAG, "Failed to parse JSON payload");
-        return;
-      }
+      // if (error) {
+      //   ESP_LOGE(TAG, "Failed to parse JSON payload");
+      //   return;
+      // }
       
       // Update whitelist
       if (json.containsKey("ble") && json["ble"].containsKey("wl")) {
@@ -224,19 +200,17 @@ namespace esphome
 
     void BTHomeReceiverBaseHub::load_whitelist() {
       std::string json_str;
-      if (!this->nvs_whitelist.load(&json_str)) {
-        ESP_LOGI(TAG, "No whitelist found in NVS");
-        return;
-      }
-      
-      //ESP_LOGD(TAG, "Loaded whitelist from NVS: %s", json_str.c_str());
-      
-      StaticJsonDocument<1024> json;
+      // if (!this->nvs_whitelist.load(&json_str)) {
+      //   ESP_LOGI(TAG, "No whitelist found in NVS");
+      //   return;
+      // }
+          
+      StaticJsonDocument<512> json;
       DeserializationError error = deserializeJson(json, json_str);
-      if (error) {
-        ESP_LOGE(TAG, "Failed to parse JSON from NVS");
-        return;
-      }
+      // if (error) {
+      //   ESP_LOGE(TAG, "Failed to parse JSON from NVS");
+      //   return;
+      // }
       
       if (json.containsKey("ble") && json["ble"].containsKey("wl")) {
         this->whitelist.clear();
@@ -252,14 +226,11 @@ namespace esphome
 
     void BTHomeReceiverBaseHub::save_whitelist() {
    // Assuming you have a DynamicJsonDocument initialized with sufficient size
-      DynamicJsonDocument jsonDoc(1024);
-
+      DynamicJsonDocument jsonDoc(512);
       // Create the root JSON object
       JsonObject root = jsonDoc.to<JsonObject>();
-
       // Create a nested object for "ble"
       JsonObject ble = root.createNestedObject("ble");
-
       // Create a nested array for "wl" inside the "ble" object
       JsonArray wl_array = ble.createNestedArray("wl");
 
@@ -275,32 +246,35 @@ namespace esphome
       String output;
       serializeJson(jsonDoc, output);
       this->nvs_whitelist.save(&output);
-      
-      //ESP_LOGD(TAG, "Saved whitelist to NVS: %s", json_str.c_str());
     }
 
     std::string BTHomeReceiverBaseHub::get_base_topic() {
       // Return the base topic for this device
-      return "your_base_device_topic"; // Replace with your actual base topic
+      return "esphome"; // Replace with your actual base topic
     }
 
-    mac_address_t BTHomeReceiverBaseHub::get_mac_address_from_nvs(const std::string nvs_id) {
-        mac_address_t mac_address = {0};
+    mac_address_t BTHomeReceiverBaseHub::mac_string_to_uint64(const std::string &mac) 
+    {
+        mac_address_t mac_num = 0;
+        stringstream ss(mac);
+        string byte;
+        uint64_t shift = 40;  // Start with the highest byte
+        
+        while (std::getline(ss, byte, ':')) {
+          mac_num |= (std::stoul(byte, nullptr, 16) << shift);
+          shift -= 8;
+        }
+        return mac_num;
+    };
+    
+    uint64_t BTHomeReceiverBaseHub::get_mac_address_from_nvs_as_hex(const std::string nvs_id) {
 
-          ESPPreferenceObject nvs_pref = global_preferences->make_preference(6, std::stoul(nvs_id));
-
-          // if (!nvs_pref.load(mac_address.data())) {
-          //   ESP_LOGE(TAG, "Failed to load MAC address from NVS");
-          // } else {
-          //   ESP_LOGD(TAG, "Loaded MAC address from NVS: %s", mac_address_to_string(mac_address).c_str());
-          // }
-
-          return mac_address;
-    }
-
-    int BTHomeReceiverBaseHub::get_mac_address_from_nvs_as_hex(const std::string nvs_id) {
-          mac_address_t mac_address = this->get_mac_address_from_nvs(nvs_id);
-          return mac_address;
+        for (BLEDevice &device : this->whitelist) {
+          if (device.desc == nvs_id) {
+            return mac_string_to_uint64(device.mac);
+          }
+        }
+        return 0;
     }
   }
 }
