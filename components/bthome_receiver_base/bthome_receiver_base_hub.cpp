@@ -16,7 +16,6 @@
 #include "bthome_receiver_base_hub.h"
 #include "esphome/core/log.h"
 #include "esphome/core/preferences.h"
-#include "esphome/components/mqtt/mqtt_client.h"
 #include <vector>
 #include <string>
 #include <ArduinoJson.h>
@@ -151,21 +150,6 @@ namespace esphome
         return 2048;
         //return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(this));
     }
-
-    //////
-    void BTHomeReceiverBaseHub::setup() {    
-      // // Load the whitelist from NVS
-      this->nvs_whitelist = global_preferences->make_preference(512, this->get_unique_id());
-      this->load_whitelist();
-
-      // Subscribe to the MQTT topic
-      std::string topic = this->get_base_topic() + "/BTHomeReceiverBaseHub/config";
-      //ESP_LOGD(TAG, "Subscribing to topic: %s", topic.c_str());
-      mqtt::global_mqtt_client->subscribe(topic, [this](const std::string &topic, const std::string &payload) {
-        this->on_mqtt_message(topic, payload);
-      });
-    }
-
     void BTHomeReceiverBaseHub::on_mqtt_message(const std::string &topic, const std::string &payload) {
       // ESP_LOGD(TAG, "Received MQTT message on topic %s", topic.c_str());
       //ESP_LOGD(TAG, "Payload: %s", payload.c_str());
@@ -255,16 +239,13 @@ namespace esphome
 
     mac_address_t BTHomeReceiverBaseHub::mac_string_to_uint64(const std::string &mac) 
     {
-        mac_address_t mac_num = 0;
-        stringstream ss(mac);
-        string byte;
-        uint64_t shift = 40;  // Start with the highest byte
-        
-        while (std::getline(ss, byte, ':')) {
-          mac_num |= (std::stoul(byte, nullptr, 16) << shift);
-          shift -= 8;
+        uint64_t result = 0;
+        for (size_t i = 0; i < mac.length(); ++i) {
+            if (mac[i] != ':') {
+                result = (result << 4) | (mac[i] <= '9' ? mac[i] - '0' : mac[i] - 'a' + 10);
+            }
         }
-        return mac_num;
+        return result;
     };
     
     uint64_t BTHomeReceiverBaseHub::get_mac_address_from_nvs_as_hex(const std::string nvs_id) {
