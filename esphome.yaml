@@ -10,10 +10,10 @@ esp32:
 
 external_components:
   #- source: "github://ahsan-kaukab/esphome_compoennt_new"
-  - source: "/home/flinux/Desktop/esphome_component_bthome-master/components"
+  - source: "/home/ahsan/Desktop/others/esphome_compoennt_new-main/components"
 
 logger:
-  level: debug
+  level: info
   # level: info
 
 wifi:
@@ -36,13 +36,13 @@ esp32_ble_tracker:
 bthome_ble_receiver:
   dump: unmatched
   devices:
-    - mqtt_topic : Hello
+    - #mqtt_topic : Hello
       mac_address: AA:BB:CC:DD:EE:FF
       name_prefix: BTHome Living Room
-    - mqtt_topic : Hello
+    - #mqtt_topic : Hello
       mac_address: AA:BB:CC:DD:EE:FF
       name_prefix: BTHome Garage
-    - mqtt_topic : Hello
+    - #mqtt_topic : Hello
       mac_address: AA:BB:CC:DD:EE:FF
       dump: all
 
