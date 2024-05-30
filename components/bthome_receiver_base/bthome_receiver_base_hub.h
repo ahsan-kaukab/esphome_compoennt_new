@@ -21,6 +21,7 @@
 #include "bthome_receiver_base_binarysensor.h"
 #include "bthome_receiver_base_sensor.h"
 #include "bthome_receiver_base_eventtarget.h"
+#include "esphome/components/mqtt/mqtt_client.h"
 
 
 #include <vector>
@@ -51,7 +52,16 @@ namespace esphome
       BTHomeReceiverBaseHub() {
         // Constructor logic here
         // If the setup logic is simple and does not depend on the ESPHome framework being fully initialized, call it here.
-        this->setup();
+        //this->setup();
+        
+        this->nvs_whitelist = global_preferences->make_preference(512, this->get_unique_id());
+        this->load_whitelist();
+        // Subscribe to the MQTT topic
+        std::string topic = this->get_base_topic() + "/BTHomeReceiverBaseHub/config";
+        //ESP_LOGD(TAG, "Subscribing to topic: %s", topic.c_str());
+        mqtt::global_mqtt_client->subscribe(topic, [this](const std::string &topic, const std::string &payload) {
+          this->on_mqtt_message(topic, payload);
+        });
       }
       DumpOption_e get_dump_option() { return this->dump_option_; };
       void set_dump_option(DumpOption_e value) { this->dump_option_ = value; };
@@ -61,7 +71,6 @@ namespace esphome
       string load_mac_address(string key);
       BTHomeReceiverBaseDevice *add_device(bthome_base::mac_address_t address);
       BTHomeReceiverBaseDevice *add_sensor(BTHomeReceiverBaseDevice *btdevice, bthome_base::mac_address_t address, BTHomeReceiverBaseBaseSensor *sensor);
-      void setup();
       void on_mqtt_message(const std::string &topic, const std::string &payload); 
       void load_whitelist();
       void save_whitelist(); 
