@@ -67,10 +67,9 @@ namespace esphome
       void save_whitelist(); 
       uint32_t get_unique_id();
       string get_base_topic();
-      mac_address_t get_mac_address_from_nvs(const std::string nvs_id);
-      std::string get_mac_address_from_nvs_as_string(const std::string nvs_id);
       std::string mac_address_to_hex(const mac_address_t mac_address);
-      int get_mac_address_from_nvs_as_hex(const std::string nvs_id);
+      uint64_t get_mac_address_from_nvs_as_hex(const std::string nvs_id);
+      mac_address_t mac_string_to_uint64(const string &mac); 
 
     protected:
       virtual optional<uint8_t> parse_message_bthome_(const bthome_base::mac_address_t address, const uint8_t *payload_data, const uint32_t payload_length, bthome_base::BTProtoVersion_e proto);
