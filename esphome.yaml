@@ -24,6 +24,7 @@ mqtt:
   broker: !secret mqtt_broker_n
   username: !secret mqtt_username_n
   password: !secret mqtt_password_n
+  port: 1883
 
 web_server:
   port: 80
