@@ -21,9 +21,9 @@ wifi:
   password: !secret wifi_password
 
 mqtt:
-  broker: !secret "mqtt_broker_n"
-  username: !secret "mqtt_username_n"
-  password: !secret "mqtt_password_n"
+  broker: !secret mqtt_broker_n
+  username: !secret mqtt_username_n
+  password: !secret mqtt_password_n
 
 web_server:
   port: 80
