@@ -215,6 +215,7 @@ namespace esphome
 
     void BTHomeReceiverBaseHub::save_whitelist() {
    // Assuming you have a DynamicJsonDocument initialized with sufficient size
+      //this->nvs_whitelist = global_preferences->make_preference(512, this->get_unique_id());
       DynamicJsonDocument jsonDoc(512);
       // Create the root JSON object
       JsonObject root = jsonDoc.to<JsonObject>();
@@ -232,17 +233,22 @@ namespace esphome
       }
 
       // Serialize the JSON document to a string for debugging
-      String output;
+      std::string output;
       serializeJson(jsonDoc, output);
       ESP_LOGI(TAG, "Payload: %s", output.c_str());
-      this->nvs_whitelist.save(&output);
+       // Save the serialized string to NVS
+      if (this->nvs_whitelist.save(&output)) {
+          ESP_LOGI(TAG, "Whitelist saved successfully");
+      } else {
+          ESP_LOGE(TAG, "Failed to save whitelist");
+      }
 
       std::string json_str;
       if (!this->nvs_whitelist.load(&json_str)) {
         ESP_LOGI(TAG, "Sorry Write is un-successfull");
         return;
       }
-      ESP_LOGI(TAG, "I think write is successfull");
+      ESP_LOGI(TAG, "I think write is successfull %s", json_str.c_str());
     }
 
     std::string BTHomeReceiverBaseHub::get_base_topic() {
