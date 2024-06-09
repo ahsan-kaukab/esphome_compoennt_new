@@ -147,8 +147,8 @@ namespace esphome
     uint32_t BTHomeReceiverBaseHub::get_unique_id () {
         // Implement a method to return a unique identifier
         // This is just an example. Adjust as needed.
-        return 0;
-        //return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(this));
+        //return 0;
+        return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(this));
     }
     void BTHomeReceiverBaseHub::on_mqtt_message(const std::string &topic, const std::string &payload) {
       ESP_LOGI(TAG, "Received MQTT message on topic %s", topic.c_str());
@@ -189,19 +189,23 @@ namespace esphome
 
     void BTHomeReceiverBaseHub::load_whitelist() {
       std::string json_str;
+      delay(2000);
       if (!this->nvs_whitelist.load(&json_str)) {
+        delay(500);
         ESP_LOGI(TAG, "No whitelist found in NVS");
         return;
       }
-          
+      delay(1000);  
+      ESP_LOGI(TAG, "I think write is successfull %s", json_str.c_str());  
       StaticJsonDocument<512> json;
-      DeserializationError error = deserializeJson(json, json_str);
+      DeserializationError error = deserializeJson(json, json_str.c_str());
       if (error) {
         ESP_LOGE(TAG, "Failed to parse JSON from NVS");
         return;
       }
       
       if (json.containsKey("ble") && json["ble"].containsKey("wl")) {
+        ESP_LOGI(TAG, "Thats good news \n");
         this->whitelist.clear();
         for (JsonObject wl_entry : json["ble"]["wl"].as<JsonArray>()) {
           BLEDevice device;
@@ -236,19 +240,31 @@ namespace esphome
       std::string output;
       serializeJson(jsonDoc, output);
       ESP_LOGI(TAG, "Payload: %s", output.c_str());
+      //output = "hel";
        // Save the serialized string to NVS
-      if (this->nvs_whitelist.save(&output)) {
+      if (nvs_whitelist.save(&output)) {
           ESP_LOGI(TAG, "Whitelist saved successfully");
       } else {
           ESP_LOGE(TAG, "Failed to save whitelist");
       }
+      this->load_whitelist();
+      //delay(2000);
+      // std::string json_str;
+      // if (!this->nvs_whitelist.load(&json_str)) {
+      //   ESP_LOGI(TAG, "Sorry Write is un-successfull");
+      //   return;
+      // }
+      // ESP_LOGI(TAG, "I think write is successfull %s", json_str.c_str());
+      delay(2000);
 
-      std::string json_str;
-      if (!this->nvs_whitelist.load(&json_str)) {
-        ESP_LOGI(TAG, "Sorry Write is un-successfull");
-        return;
-      }
-      ESP_LOGI(TAG, "I think write is successfull %s", json_str.c_str());
+        // Parse the loaded JSON string to check integrity
+      // DynamicJsonDocument loadedDoc(128);  // Match the size with the save operation
+      // DeserializationError error = deserializeJson(loadedDoc, json_str);
+      // if (error) {
+      //     ESP_LOGE(TAG, "Failed to parse loaded JSON: %s", error.c_str());
+      // } else {
+      //     ESP_LOGI(TAG, "Parsed loaded JSON successfully");
+      // }
     }
 
     std::string BTHomeReceiverBaseHub::get_base_topic() {

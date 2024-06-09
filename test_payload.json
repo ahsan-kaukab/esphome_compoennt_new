@@ -1,9 +1,7 @@
 {
     "ble": {
         "wl": [
-            {"desc": "ingresso","mac": "60:ef:ab:4a:6a:48", "type": "bthome"},
-            {"desc": "lab_int","mac": "8c:6f:b9:0b:58:70", "type": "bthome"},
-            {"desc": "bagno","mac": "60:ef:ab:42:da:eb", "type": "bthome"}
+            {"desc": "ingresso","mac": "60:ef:ab:4a:6a:48", "type": "bthome"}
         ]
     }
 }
