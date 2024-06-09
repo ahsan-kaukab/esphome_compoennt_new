@@ -3,13 +3,7 @@
         "wl": [
             {"desc": "ingresso","mac": "60:ef:ab:4a:6a:48", "type": "bthome"},
             {"desc": "lab_int","mac": "8c:6f:b9:0b:58:70", "type": "bthome"},
-            {"desc": "bagno","mac": "60:ef:ab:42:da:eb", "type": "bthome"},
-            {"desc": "antibagno","mac": "60:ef:ab:42:e6:c2", "type": "bthome"},
-            {"desc": "bea","mac": "60:ef:ab:40:ad:70", "type": "bthome"},
-            {"desc": "show_int","mac": "60:ef:ab:42:de:37", "type": "bthome"},
-            {"desc": "flavia","mac": "60:ef:ab:43:18:23", "type": "bthome"},
-            {"desc": "paolo","mac": "60:ef:ab:44:07:84", "type": "bthome"},
-            {"desc": "legno","mac": "60:ef:ab:0e:11:de", "type": "bthome"}
+            {"desc": "bagno","mac": "60:ef:ab:42:da:eb", "type": "bthome"}
         ]
     }
 }

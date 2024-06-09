@@ -147,12 +147,12 @@ namespace esphome
     uint32_t BTHomeReceiverBaseHub::get_unique_id () {
         // Implement a method to return a unique identifier
         // This is just an example. Adjust as needed.
-        return 2048;
+        return 0;
         //return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(this));
     }
     void BTHomeReceiverBaseHub::on_mqtt_message(const std::string &topic, const std::string &payload) {
-      // ESP_LOGD(TAG, "Received MQTT message on topic %s", topic.c_str());
-      //ESP_LOGD(TAG, "Payload: %s", payload.c_str());
+      ESP_LOGI(TAG, "Received MQTT message on topic %s", topic.c_str());
+      ESP_LOGI(TAG, "Payload: %s", payload.c_str());
       
       // Parse JSON payload
       StaticJsonDocument<512> json;
@@ -161,7 +161,9 @@ namespace esphome
       //   ESP_LOGE(TAG, "Failed to parse JSON payload");
       //   return;
       // }
-      
+      ESP_LOGI(TAG, "\n\n");
+      ESP_LOGI(TAG, "Storing in NVS \n\n");
+      ESP_LOGI(TAG, "\n\n");
       // Update whitelist
       if (json.containsKey("ble") && json["ble"].containsKey("wl")) {
         std::vector<BLEDevice> new_whitelist;
@@ -170,11 +172,14 @@ namespace esphome
           device.desc = wl_entry["desc"].as<std::string>();
           device.mac = wl_entry["mac"].as<std::string>();
           device.type = wl_entry["type"].as<std::string>();
+          ESP_LOGI(TAG, "device.desc: %s", device.desc.c_str());
+
           new_whitelist.push_back(device);
         }
         
         // Compare with current whitelist
         if (new_whitelist != this->whitelist) {
+          ESP_LOGI(TAG, "some thing is wrong");
           this->whitelist = new_whitelist;
           // Save the new whitelist to NVS
           this->save_whitelist();
@@ -184,17 +189,17 @@ namespace esphome
 
     void BTHomeReceiverBaseHub::load_whitelist() {
       std::string json_str;
-      // if (!this->nvs_whitelist.load(&json_str)) {
-      //   ESP_LOGI(TAG, "No whitelist found in NVS");
-      //   return;
-      // }
+      if (!this->nvs_whitelist.load(&json_str)) {
+        ESP_LOGI(TAG, "No whitelist found in NVS");
+        return;
+      }
           
       StaticJsonDocument<512> json;
       DeserializationError error = deserializeJson(json, json_str);
-      // if (error) {
-      //   ESP_LOGE(TAG, "Failed to parse JSON from NVS");
-      //   return;
-      // }
+      if (error) {
+        ESP_LOGE(TAG, "Failed to parse JSON from NVS");
+        return;
+      }
       
       if (json.containsKey("ble") && json["ble"].containsKey("wl")) {
         this->whitelist.clear();
@@ -229,7 +234,15 @@ namespace esphome
       // Serialize the JSON document to a string for debugging
       String output;
       serializeJson(jsonDoc, output);
+      ESP_LOGI(TAG, "Payload: %s", output.c_str());
       this->nvs_whitelist.save(&output);
+
+      std::string json_str;
+      if (!this->nvs_whitelist.load(&json_str)) {
+        ESP_LOGI(TAG, "Sorry Write is un-successfull");
+        return;
+      }
+      ESP_LOGI(TAG, "I think write is successfull");
     }
 
     std::string BTHomeReceiverBaseHub::get_base_topic() {
@@ -250,7 +263,9 @@ namespace esphome
     
     uint64_t BTHomeReceiverBaseHub::get_mac_address_from_nvs_as_hex(const std::string nvs_id) {
 
+        ESP_LOGI(TAG, "Hello from get_mac_address_from_nvs_as_hex ");
         for (BLEDevice &device : this->whitelist) {
+          ESP_LOGI(TAG, "Hello from this->whitelist ");
           if (device.desc == nvs_id) {
             return mac_string_to_uint64(device.mac);
           }

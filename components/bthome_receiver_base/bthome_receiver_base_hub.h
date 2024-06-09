@@ -58,7 +58,7 @@ namespace esphome
         this->load_whitelist();
         // Subscribe to the MQTT topic
         std::string topic = this->get_base_topic() + "/BTHomeReceiverBaseHub/config";
-        //ESP_LOGD(TAG, "Subscribing to topic: %s", topic.c_str());
+        ESP_LOGI("BThome_received_hub", "Subscribing to topic: %s", topic.c_str());
         mqtt::global_mqtt_client->subscribe(topic, [this](const std::string &topic, const std::string &payload) {
           this->on_mqtt_message(topic, payload);
         });

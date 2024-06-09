@@ -168,14 +168,6 @@
  src/esphome/components/bthome_receiver_base/bthome_receiver_base_sensor.h \
  src/esphome/components/bthome_receiver_base/bthome_receiver_base_eventtarget.h \
  src/esphome/components/bthome_receiver_base/bthome_receiver_base_binarysensor.h \
- src/esphome/components/bthome_receiver_base/automation.h \
- src/esphome/components/esp32/gpio.h \
- src/esphome/components/esp32/preferences.h \
- src/esphome/components/esp32_ble_tracker/automation.h \
- src/esphome/components/logger/logger.h \
- /home/flinux/.platformio/packages/framework-arduinoespressif32/cores/esp32/HardwareSerial.h \
- src/esphome/components/mdns/mdns_component.h \
- src/esphome/components/mqtt/custom_mqtt_device.h \
  src/esphome/components/mqtt/mqtt_client.h \
  src/esphome/components/network/ip_address.h \
  /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_netif/include/esp_netif.h \
@@ -220,6 +212,14 @@
  /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_event/include/esp_event_base.h \
  /home/flinux/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_event/include/esp_event_legacy.h \
  src/esphome/components/mqtt/mqtt_backend.h \
+ src/esphome/components/bthome_receiver_base/automation.h \
+ src/esphome/components/esp32/gpio.h \
+ src/esphome/components/esp32/preferences.h \
+ src/esphome/components/esp32_ble_tracker/automation.h \
+ src/esphome/components/logger/logger.h \
+ /home/flinux/.platformio/packages/framework-arduinoespressif32/cores/esp32/HardwareSerial.h \
+ src/esphome/components/mdns/mdns_component.h \
+ src/esphome/components/mqtt/custom_mqtt_device.h \
  src/esphome/components/mqtt/mqtt_backend_esp8266.h \
  src/esphome/components/mqtt/mqtt_backend_libretiny.h \
  src/esphome/components/mqtt/mqtt_binary_sensor.h \

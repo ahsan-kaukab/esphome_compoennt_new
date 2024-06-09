@@ -38,19 +38,23 @@ bthome_ble_receiver:
   dump: unmatched
   devices:
     - #mqtt_topic : Hello
-      mac_address: AA:BB:CC:DD:EE:FF
+      #mac_address: AA:BB:CC:DD:EE:FF
+      mac_address: 2048
       name_prefix: BTHome Living Room
     - #mqtt_topic : Hello
-      mac_address: AA:BB:CC:DD:EE:FF
+      #mac_address: AA:BB:CC:DD:EE:FF
+      mac_address: 2048
       name_prefix: BTHome Garage
     - #mqtt_topic : Hello
-      mac_address: AA:BB:CC:DD:EE:FF
+      #mac_address: AA:BB:CC:DD:EE:FF
+      mac_address: 2048
       dump: all
 
 sensor:
   - platform: bthome_ble_receiver
     #mqtt_topic : Hello
-    mac_address: AA:BB:CC:DD:EE:FF
+    #mac_address: AA:BB:CC:DD:EE:FF
+    mac_address: 2048
     sensors:
       - measurement_type: temperature
         name: Temperature
@@ -61,7 +65,8 @@ sensor:
 
   - platform: bthome_ble_receiver
     #mqtt_topic : Hello
-    mac_address: AA:BB:CC:DD:EE:FF
+    #mac_address: AA:BB:CC:DD:EE:FF
+    mac_address: 2048
     sensors:
       - measurement_type: temperature
         name: Temperature
@@ -76,7 +81,8 @@ sensor:
 
   - platform: bthome_ble_receiver
     #mqtt_topic : Hello
-    mac_address: AA:BB:CC:DD:EE:FF
+    #mac_address: AA:BB:CC:DD:EE:FF
+    mac_address: 2048
     sensors:
       - measurement_type: temperature
         name: BTHome Workshop Temperature
@@ -84,7 +90,8 @@ sensor:
 binary_sensor:
   - platform: bthome_ble_receiver
     #mqtt_topic : Hello
-    mac_address: AA:BB:CC:DD:EE:FF
+    #mac_address: AA:BB:CC:DD:EE:FF
+    mac_address: 2048
     sensors:
       - measurement_type: opening
         name: Garage

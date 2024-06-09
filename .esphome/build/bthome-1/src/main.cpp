@@ -64,7 +64,7 @@ void setup() {
   App.pre_setup("bthome-1", "", "", "", __DATE__ ", " __TIME__, false);
   // binary_sensor:
   // logger:
-  //   level: DEBUG
+  //   level: INFO
   //   id: logger_logger_id
   //   baud_rate: 115200
   //   tx_buffer_size: 512
@@ -99,8 +99,8 @@ void setup() {
   wifi_wificomponent_id->set_use_address("bthome-1.local");
   {
   wifi::WiFiAP wifi_wifiap_id = wifi::WiFiAP();
-  wifi_wifiap_id.set_ssid("YourWiFiSSID");
-  wifi_wifiap_id.set_password("YourWiFiPassword");
+  wifi_wifiap_id.set_ssid("Nova 49D");
+  wifi_wifiap_id.set_password("44488849");
   wifi_wifiap_id.set_priority(0.0f);
   wifi_wificomponent_id->add_sta(wifi_wifiap_id);
   }
@@ -119,11 +119,11 @@ void setup() {
   mdns_mdnscomponent_id->set_component_source("mdns");
   App.register_component(mdns_mdnscomponent_id);
   // mqtt:
-  //   broker: your_mqtt_broker
-  //   username: your_username
-  //   password: your_password
-  //   id: mqtt_mqttclientcomponent_id
+  //   broker: !secret 'mqtt_broker_n'
+  //   username: !secret 'mqtt_password_n'
+  //   password: !secret 'mqtt_password_n'
   //   port: 1883
+  //   id: mqtt_mqttclientcomponent_id
   //   discovery: true
   //   discovery_retain: true
   //   discovery_prefix: homeassistant
@@ -155,10 +155,10 @@ void setup() {
   mqtt_mqttclientcomponent_id = new mqtt::MQTTClientComponent();
   mqtt_mqttclientcomponent_id->set_component_source("mqtt");
   App.register_component(mqtt_mqttclientcomponent_id);
-  mqtt_mqttclientcomponent_id->set_broker_address("your_mqtt_broker");
+  mqtt_mqttclientcomponent_id->set_broker_address("broker.hivemq.com");
   mqtt_mqttclientcomponent_id->set_broker_port(1883);
-  mqtt_mqttclientcomponent_id->set_username("your_username");
-  mqtt_mqttclientcomponent_id->set_password("your_password");
+  mqtt_mqttclientcomponent_id->set_username("");
+  mqtt_mqttclientcomponent_id->set_password("");
   mqtt_mqttclientcomponent_id->set_discovery_info("homeassistant", mqtt::MQTT_LEGACY_UNIQUE_ID_GENERATOR, mqtt::MQTT_NONE_OBJECT_ID_GENERATOR, true);
   mqtt_mqttclientcomponent_id->set_topic_prefix("bthome-1");
   mqtt_mqttclientcomponent_id->set_birth_message(mqtt::MQTTMessage{
@@ -247,16 +247,13 @@ void setup() {
   // bthome_ble_receiver:
   //   dump: UNMATCHED
   //   devices:
-  //   - mqtt_topic: Hello
-  //     mac_address: AA:BB:CC:DD:EE:FF
+  //   - mac_address: '2048'
   //     name_prefix: BTHome Living Room
   //     id: bthome_receiver_base_bthomereceiverbasedevice_id
-  //   - mqtt_topic: Hello
-  //     mac_address: AA:BB:CC:DD:EE:FF
+  //   - mac_address: '2048'
   //     name_prefix: BTHome Garage
   //     id: bthome_receiver_base_bthomereceiverbasedevice_id_2
-  //   - mqtt_topic: Hello
-  //     mac_address: AA:BB:CC:DD:EE:FF
+  //   - mac_address: '2048'
   //     dump: ALL
   //     id: bthome_receiver_base_bthomereceiverbasedevice_id_3
   //   id: bthome_ble_receiver_bthomeblereceiverhub_id
@@ -265,7 +262,7 @@ void setup() {
   bthome_ble_receiver_bthomeblereceiverhub_id->set_component_source("mqtt");
   App.register_component(bthome_ble_receiver_bthomeblereceiverhub_id);
   bthome_ble_receiver_bthomeblereceiverhub_id->set_dump_option(bthome_receiver_base::DumpOption_Unmatched);
-  bthome_receiver_base_bthomereceiverbasedevice_id = (bthome_receiver_base::BTHomeReceiverBaseDevice *)(bthome_ble_receiver_bthomeblereceiverhub_id->add_device(bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF")));
+  bthome_receiver_base_bthomereceiverbasedevice_id = (bthome_receiver_base::BTHomeReceiverBaseDevice *)(bthome_ble_receiver_bthomeblereceiverhub_id->add_device(bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("2048")));
   bthome_receiver_base_bthomereceiverbasedevice_id->set_component_source("mqtt");
   App.register_component(bthome_receiver_base_bthomereceiverbasedevice_id);
   bthome_receiver_base_bthomereceiverbasedevice_id->set_name_prefix("BTHome Living Room");
@@ -274,7 +271,7 @@ void setup() {
   esp32_ble_tracker_esp32bletracker_id->register_listener(bthome_ble_receiver_bthomeblereceiverhub_id);
   // sensor.bthome_ble_receiver:
   //   platform: bthome_ble_receiver
-  //   mac_address: AA:BB:CC:DD:EE:FF
+  //   mac_address: '2048'
   //   sensors:
   //   - measurement_type:
   //       measurement_type: 2
@@ -317,7 +314,7 @@ void setup() {
   mqtt_mqttsensorcomponent_id_3->set_component_source("mqtt");
   App.register_component(mqtt_mqttsensorcomponent_id_3);
   bthome_receiver_base_bthomereceiverbasesensor_id_3->set_measurement_type(0x00);
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id_3);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("2048"), bthome_receiver_base_bthomereceiverbasesensor_id_3);
   bthome_receiver_base_bthomereceiverbasesensor_id = new bthome_receiver_base::BTHomeReceiverBaseSensor();
   App.register_sensor(bthome_receiver_base_bthomereceiverbasesensor_id);
   bthome_receiver_base_bthomereceiverbasesensor_id->set_name("BTHome Living Room Temperature");
@@ -331,7 +328,7 @@ void setup() {
   bthome_receiver_base_bthomereceiverbasesensor_id->set_accuracy_decimals(2);
   bthome_receiver_base_bthomereceiverbasesensor_id->set_unit_of_measurement("\302\260C");
   bthome_receiver_base_bthomereceiverbasesensor_id->set_device_class("temperature");
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("2048"), bthome_receiver_base_bthomereceiverbasesensor_id);
   bthome_receiver_base_bthomereceiverbasesensor_id_2 = new bthome_receiver_base::BTHomeReceiverBaseSensor();
   App.register_sensor(bthome_receiver_base_bthomereceiverbasesensor_id_2);
   bthome_receiver_base_bthomereceiverbasesensor_id_2->set_name("BTHome Living Room Humidity");
@@ -345,10 +342,10 @@ void setup() {
   bthome_receiver_base_bthomereceiverbasesensor_id_2->set_accuracy_decimals(2);
   bthome_receiver_base_bthomereceiverbasesensor_id_2->set_unit_of_measurement("%");
   bthome_receiver_base_bthomereceiverbasesensor_id_2->set_device_class("humidity");
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id_2);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("2048"), bthome_receiver_base_bthomereceiverbasesensor_id_2);
   // sensor.bthome_ble_receiver:
   //   platform: bthome_ble_receiver
-  //   mac_address: AA:BB:CC:DD:EE:FF
+  //   mac_address: '2048'
   //   sensors:
   //   - measurement_type:
   //       measurement_type: 2
@@ -399,7 +396,7 @@ void setup() {
   bthome_receiver_base_bthomereceiverbasesensor_id_5->set_accuracy_decimals(2);
   bthome_receiver_base_bthomereceiverbasesensor_id_5->set_unit_of_measurement("\302\260C");
   bthome_receiver_base_bthomereceiverbasesensor_id_5->set_device_class("temperature");
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id_5);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("2048"), bthome_receiver_base_bthomereceiverbasesensor_id_5);
   bthome_receiver_base_bthomereceiverbasesensor_id_6 = new bthome_receiver_base::BTHomeReceiverBaseSensor();
   App.register_sensor(bthome_receiver_base_bthomereceiverbasesensor_id_6);
   bthome_receiver_base_bthomereceiverbasesensor_id_6->set_name("BTHome Living Room Temperature 2");
@@ -412,7 +409,7 @@ void setup() {
   mqtt_mqttsensorcomponent_id_5->set_component_source("mqtt");
   App.register_component(mqtt_mqttsensorcomponent_id_5);
   bthome_receiver_base_bthomereceiverbasesensor_id_6->set_measurement_type(2);
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id_6);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("2048"), bthome_receiver_base_bthomereceiverbasesensor_id_6);
   bthome_receiver_base_bthomereceiverbasesensor_id_7 = new bthome_receiver_base::BTHomeReceiverBaseSensor();
   App.register_sensor(bthome_receiver_base_bthomereceiverbasesensor_id_7);
   bthome_receiver_base_bthomereceiverbasesensor_id_7->set_name("BTHome Living Room Temperature 3");
@@ -423,7 +420,7 @@ void setup() {
   mqtt_mqttsensorcomponent_id_6->set_component_source("mqtt");
   App.register_component(mqtt_mqttsensorcomponent_id_6);
   bthome_receiver_base_bthomereceiverbasesensor_id_7->set_measurement_type(2);
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id_7);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("2048"), bthome_receiver_base_bthomereceiverbasesensor_id_7);
   bthome_receiver_base_bthomereceiverbasesensor_id_8 = new bthome_receiver_base::BTHomeReceiverBaseSensor();
   App.register_sensor(bthome_receiver_base_bthomereceiverbasesensor_id_8);
   bthome_receiver_base_bthomereceiverbasesensor_id_8->set_name("BTHome Living Room Count");
@@ -434,10 +431,10 @@ void setup() {
   mqtt_mqttsensorcomponent_id_7->set_component_source("mqtt");
   App.register_component(mqtt_mqttsensorcomponent_id_7);
   bthome_receiver_base_bthomereceiverbasesensor_id_8->set_measurement_type(0x3E);
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id_8);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("2048"), bthome_receiver_base_bthomereceiverbasesensor_id_8);
   // sensor.bthome_ble_receiver:
   //   platform: bthome_ble_receiver
-  //   mac_address: AA:BB:CC:DD:EE:FF
+  //   mac_address: '2048'
   //   sensors:
   //   - measurement_type:
   //       measurement_type: 2
@@ -465,10 +462,10 @@ void setup() {
   bthome_receiver_base_bthomereceiverbasesensor_id_10->set_accuracy_decimals(2);
   bthome_receiver_base_bthomereceiverbasesensor_id_10->set_unit_of_measurement("\302\260C");
   bthome_receiver_base_bthomereceiverbasesensor_id_10->set_device_class("temperature");
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasesensor_id_10);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("2048"), bthome_receiver_base_bthomereceiverbasesensor_id_10);
   // binary_sensor.bthome_ble_receiver:
   //   platform: bthome_ble_receiver
-  //   mac_address: AA:BB:CC:DD:EE:FF
+  //   mac_address: '2048'
   //   sensors:
   //   - measurement_type:
   //       measurement_type: 17
@@ -491,7 +488,7 @@ void setup() {
   App.register_component(mqtt_mqttbinarysensorcomponent_id);
   bthome_receiver_base_bthomereceiverbasebinarysensor_id->set_measurement_type(0x11);
   bthome_receiver_base_bthomereceiverbasebinarysensor_id->set_device_class("opening");
-  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("AA:BB:CC:DD:EE:FF"), bthome_receiver_base_bthomereceiverbasebinarysensor_id);
+  bthome_ble_receiver_bthomeblereceiverhub_id->add_sensor(bthome_receiver_base_bthomereceiverbasedevice_id, bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("2048"), bthome_receiver_base_bthomereceiverbasebinarysensor_id);
   // network:
   //   min_ipv6_addr_count: 0
   // esp32_ble:
