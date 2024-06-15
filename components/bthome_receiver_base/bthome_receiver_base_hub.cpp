@@ -249,7 +249,7 @@ namespace esphome
       } else {
           ESP_LOGE(TAG, "Failed to save whitelist");
       }
-      this->load_whitelist();
+      //this->load_whitelist();
       //delay(2000);
       // std::string json_str;
       // if (!this->nvs_whitelist.load(&json_str)) {
