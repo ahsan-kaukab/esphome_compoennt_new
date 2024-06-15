@@ -73,9 +73,9 @@ namespace esphome
       string load_mac_address(string key);
       BTHomeReceiverBaseDevice *add_device(bthome_base::mac_address_t address);
       BTHomeReceiverBaseDevice *add_sensor(BTHomeReceiverBaseDevice *btdevice, bthome_base::mac_address_t address, BTHomeReceiverBaseBaseSensor *sensor);
-      void on_mqtt_message(const std::string &topic, const std::string &payload); 
-      void load_whitelist();
-      void save_whitelist(); 
+      uint32_t on_mqtt_message(const std::string &topic, const std::string &payload); 
+      uint32_t load_whitelist();
+      uint32_t save_whitelist(); 
       uint32_t get_unique_id();
       string get_base_topic();
       std::string mac_address_to_hex(const mac_address_t mac_address);

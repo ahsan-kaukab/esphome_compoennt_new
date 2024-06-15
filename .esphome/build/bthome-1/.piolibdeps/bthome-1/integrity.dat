@@ -1,7 +1,7 @@
+WiFi
+Update
 ESPmDNS
 esphome/AsyncTCP-esphome@2.1.3
-FS
 esphome/ESPAsyncWebServer-esphome@3.2.0
+FS
 bblanchon/ArduinoJson@6.18.5
-Update
-WiFi

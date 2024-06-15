@@ -150,7 +150,7 @@ namespace esphome
         //return 0;
         return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(this));
     }
-    void BTHomeReceiverBaseHub::on_mqtt_message(const std::string &topic, const std::string &payload) {
+    uint32_t BTHomeReceiverBaseHub::on_mqtt_message(const std::string &topic, const std::string &payload) {
       ESP_LOGI(TAG, "Received MQTT message on topic %s", topic.c_str());
       ESP_LOGI(TAG, "Payload: %s", payload.c_str());
       
@@ -185,15 +185,16 @@ namespace esphome
           this->save_whitelist();
         }
       }
+      return 0;
     } 
 
-    void BTHomeReceiverBaseHub::load_whitelist() {
+    uint32_t BTHomeReceiverBaseHub::load_whitelist() {
       std::string json_str;
-      delay(2000);
+      delay(1000);
       if (!this->nvs_whitelist.load(&json_str)) {
         delay(500);
         ESP_LOGI(TAG, "No whitelist found in NVS");
-        return;
+        return 0;
       }
       delay(1000);  
       ESP_LOGI(TAG, "I think write is successfull %s", json_str.c_str());  
@@ -201,7 +202,7 @@ namespace esphome
       DeserializationError error = deserializeJson(json, json_str.c_str());
       if (error) {
         ESP_LOGE(TAG, "Failed to parse JSON from NVS");
-        return;
+        return 0;
       }
       
       if (json.containsKey("ble") && json["ble"].containsKey("wl")) {
@@ -215,9 +216,10 @@ namespace esphome
           this->whitelist.push_back(device);
         }
       }
+      return 0;
     }
 
-    void BTHomeReceiverBaseHub::save_whitelist() {
+    uint32_t BTHomeReceiverBaseHub::save_whitelist() {
    // Assuming you have a DynamicJsonDocument initialized with sufficient size
       //this->nvs_whitelist = global_preferences->make_preference(512, this->get_unique_id());
       DynamicJsonDocument jsonDoc(512);
@@ -255,7 +257,8 @@ namespace esphome
       //   return;
       // }
       // ESP_LOGI(TAG, "I think write is successfull %s", json_str.c_str());
-      delay(2000);
+      delay(1000);
+      return 0;
 
         // Parse the loaded JSON string to check integrity
       // DynamicJsonDocument loadedDoc(128);  // Match the size with the save operation
