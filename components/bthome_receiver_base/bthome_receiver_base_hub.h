@@ -59,13 +59,16 @@ namespace esphome
         this->nvs_whitelist = global_preferences->make_preference(512, this->get_unique_id(),1);
         //this->nvs_whitelist = global_preferences->make_preference(512, this->get_unique_id());
         //this->nvs_whitelist = global_preferences->make_preference<std::string>(512, 512);
-        this->load_whitelist();
+        //this->load_whitelist();
         // Subscribe to the MQTT topic
         std::string topic = this->get_base_topic() + "/BTHomeReceiverBaseHub/config";
         ESP_LOGI("BThome_received_hub", "Subscribing to topic: %s", topic.c_str());
         mqtt::global_mqtt_client->subscribe(topic, [this](const std::string &topic, const std::string &payload) {
           this->on_mqtt_message(topic, payload);
         });
+        delay(1000);
+        this->load_whitelist();
+        delay(1000);
       }
       DumpOption_e get_dump_option() { return this->dump_option_; };
       void set_dump_option(DumpOption_e value) { this->dump_option_ = value; };

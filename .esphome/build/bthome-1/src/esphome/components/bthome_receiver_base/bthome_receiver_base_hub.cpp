@@ -147,8 +147,8 @@ namespace esphome
     uint32_t BTHomeReceiverBaseHub::get_unique_id () {
         // Implement a method to return a unique identifier
         // This is just an example. Adjust as needed.
-        //return 0;
-        return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(this));
+        return 0;
+        //return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(this));
     }
     uint32_t BTHomeReceiverBaseHub::on_mqtt_message(const std::string &topic, const std::string &payload) {
       ESP_LOGI(TAG, "Received MQTT message on topic %s", topic.c_str());
@@ -199,7 +199,8 @@ namespace esphome
       delay(1000);  
       ESP_LOGI(TAG, "I think write is successfull %s", json_str.c_str());  
       StaticJsonDocument<512> json;
-      DeserializationError error = deserializeJson(json, json_str.c_str());
+      //DeserializationError error = deserializeJson(json, json_str.c_str());
+      DeserializationError error = deserializeJson(json, json_str);
       if (error) {
         ESP_LOGE(TAG, "Failed to parse JSON from NVS");
         return 0;
@@ -244,12 +245,16 @@ namespace esphome
       ESP_LOGI(TAG, "Payload: %s", output.c_str());
       //output = "hel";
        // Save the serialized string to NVS
-      if (nvs_whitelist.save(&output)) {
+      //if (nvs_whitelist.save(output.c_str())) { 
+      if (nvs_whitelist.save(&output)) { 
+      //if (nvs_whitelist.save(output.c_str())) {
           ESP_LOGI(TAG, "Whitelist saved successfully");
       } else {
           ESP_LOGE(TAG, "Failed to save whitelist");
       }
       //this->load_whitelist();
+      delay(500);
+      //ESP_LOGI(TAG, "just anther test");
       //delay(2000);
       // std::string json_str;
       // if (!this->nvs_whitelist.load(&json_str)) {
@@ -258,6 +263,7 @@ namespace esphome
       // }
       // ESP_LOGI(TAG, "I think write is successfull %s", json_str.c_str());
       delay(1000);
+      //this->load_whitelist();
       return 0;
 
         // Parse the loaded JSON string to check integrity
@@ -288,7 +294,7 @@ namespace esphome
     
     uint64_t BTHomeReceiverBaseHub::get_mac_address_from_nvs_as_hex(const std::string nvs_id) {
 
-        ESP_LOGI(TAG, "Hello from get_mac_address_from_nvs_as_hex ");
+        //ESP_LOGI(TAG, "Hello from get_mac_address_from_nvs_as_hex ");
         for (BLEDevice &device : this->whitelist) {
           ESP_LOGI(TAG, "Hello from this->whitelist ");
           if (device.desc == nvs_id) {

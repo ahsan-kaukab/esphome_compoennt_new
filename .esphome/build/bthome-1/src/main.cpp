@@ -220,10 +220,10 @@ void setup() {
   //     type: arduino
   //   variant: ESP32
   // preferences:
+  //   flash_write_interval: 1s
   //   id: preferences_intervalsyncer_id
-  //   flash_write_interval: 60s
   preferences_intervalsyncer_id = new preferences::IntervalSyncer();
-  preferences_intervalsyncer_id->set_write_interval(60000);
+  preferences_intervalsyncer_id->set_write_interval(1000);
   preferences_intervalsyncer_id->set_component_source("preferences");
   App.register_component(preferences_intervalsyncer_id);
   // external_components:
