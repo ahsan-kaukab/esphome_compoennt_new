@@ -147,8 +147,8 @@ namespace esphome
     uint32_t BTHomeReceiverBaseHub::get_unique_id () {
         // Implement a method to return a unique identifier
         // This is just an example. Adjust as needed.
-        //return 0;
-        return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(this));
+        return 0;
+        //return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(this));
     }
     uint32_t BTHomeReceiverBaseHub::on_mqtt_message(const std::string &topic, const std::string &payload) {
       ESP_LOGI(TAG, "Received MQTT message on topic %s", topic.c_str());
@@ -250,6 +250,8 @@ namespace esphome
           ESP_LOGE(TAG, "Failed to save whitelist");
       }
       //this->load_whitelist();
+      delay(500);
+      ESP_LOGI(TAG, "just anther test");
       //delay(2000);
       // std::string json_str;
       // if (!this->nvs_whitelist.load(&json_str)) {

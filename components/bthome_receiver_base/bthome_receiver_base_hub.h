@@ -54,7 +54,9 @@ namespace esphome
         // If the setup logic is simple and does not depend on the ESPHome framework being fully initialized, call it here.
         //this->setup();
         //this->nvs_whitelist.setup_preferences();
-        this->nvs_whitelist = global_preferences->make_preference(512, this->get_unique_id());
+        //global_preferences->setup();
+        //setup_preferences();
+        this->nvs_whitelist = global_preferences->make_preference(512, this->get_unique_id(),1);
         //this->nvs_whitelist = global_preferences->make_preference(512, this->get_unique_id());
         //this->nvs_whitelist = global_preferences->make_preference<std::string>(512, 512);
         this->load_whitelist();

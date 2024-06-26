@@ -8,13 +8,17 @@ esp32:
   board: esp32dev
   # wemos_d1_mini32
 
+preferences:
+  flash_write_interval: 1s
+
 external_components:
   #- source: "github://ahsan-kaukab/esphome_compoennt_new"
   - source: "/home/flinux/Desktop/esphome_component_bthome-master/components"
+  #- source: "github://martgras/esphome@nvs-fix"
+  #components: [ esp32]
 
 logger:
   level: info
-  # level: info
 
 wifi:
   ssid: !secret wifi_ssid
@@ -89,9 +93,15 @@ sensor:
 
 binary_sensor:
   - platform: bthome_ble_receiver
+    #optimistic: true
+    #restore_state: true
     #mqtt_topic : Hello
     #mac_address: AA:BB:CC:DD:EE:FF
     mac_address: 2048
     sensors:
       - measurement_type: opening
         name: Garage
+        #restore_mode: RESTORE_DEFAULT_ON
+        # optimistic: 'true'
+        # restore_state: 'true'
+        # restore_mode: RESTORE_DEFAULT_ON
