@@ -6,13 +6,22 @@ esphome:
 
 esp32:
   board: esp32dev
+  
   # wemos_d1_mini32
 
+# globals: 
+#   - id: a 
+#     type: int 
+#     restore_value: yes 
+#     initial_value: '0'
+  
 preferences:
-  flash_write_interval: 1s
+ flash_write_interval: 1s
+ #restore_from_flash: "true"
 
 external_components:
   #- source: "github://ahsan-kaukab/esphome_compoennt_new"
+  #- source: github://martgras/esphome@nvs-fix
   - source: "/home/flinux/Desktop/esphome_component_bthome-master/components"
   #- source: "github://martgras/esphome@nvs-fix"
   #components: [ esp32]
@@ -39,7 +48,7 @@ esp32_ble_tracker:
     active: false
 
 bthome_ble_receiver:
-  dump: unmatched
+  #dump: unmatched
   devices:
     - #mqtt_topic : Hello
       #mac_address: AA:BB:CC:DD:EE:FF
@@ -52,7 +61,7 @@ bthome_ble_receiver:
     - #mqtt_topic : Hello
       #mac_address: AA:BB:CC:DD:EE:FF
       mac_address: 2048
-      dump: all
+      #dump: all
 
 sensor:
   - platform: bthome_ble_receiver

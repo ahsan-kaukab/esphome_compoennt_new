@@ -245,7 +245,6 @@ void setup() {
   esp32_ble_tracker_esp32bletracker_id->set_component_source("esp32_ble_tracker");
   App.register_component(esp32_ble_tracker_esp32bletracker_id);
   // bthome_ble_receiver:
-  //   dump: UNMATCHED
   //   devices:
   //   - mac_address: '2048'
   //     name_prefix: BTHome Living Room
@@ -254,20 +253,17 @@ void setup() {
   //     name_prefix: BTHome Garage
   //     id: bthome_receiver_base_bthomereceiverbasedevice_id_2
   //   - mac_address: '2048'
-  //     dump: ALL
   //     id: bthome_receiver_base_bthomereceiverbasedevice_id_3
   //   id: bthome_ble_receiver_bthomeblereceiverhub_id
   //   esp32_ble_id: esp32_ble_tracker_esp32bletracker_id
   bthome_ble_receiver_bthomeblereceiverhub_id = new bthome_ble_receiver::BTHomeBLEReceiverHub();
   bthome_ble_receiver_bthomeblereceiverhub_id->set_component_source("mqtt");
   App.register_component(bthome_ble_receiver_bthomeblereceiverhub_id);
-  bthome_ble_receiver_bthomeblereceiverhub_id->set_dump_option(bthome_receiver_base::DumpOption_Unmatched);
   bthome_receiver_base_bthomereceiverbasedevice_id = (bthome_receiver_base::BTHomeReceiverBaseDevice *)(bthome_ble_receiver_bthomeblereceiverhub_id->add_device(bthome_ble_receiver_bthomeblereceiverhub_id->get_mac_address_from_nvs_as_hex("2048")));
   bthome_receiver_base_bthomereceiverbasedevice_id->set_component_source("mqtt");
   App.register_component(bthome_receiver_base_bthomereceiverbasedevice_id);
   bthome_receiver_base_bthomereceiverbasedevice_id->set_name_prefix("BTHome Living Room");
   bthome_receiver_base_bthomereceiverbasedevice_id->set_name_prefix("BTHome Garage");
-  bthome_receiver_base_bthomereceiverbasedevice_id->set_dump_option(bthome_receiver_base::DumpOption_All);
   esp32_ble_tracker_esp32bletracker_id->register_listener(bthome_ble_receiver_bthomeblereceiverhub_id);
   // sensor.bthome_ble_receiver:
   //   platform: bthome_ble_receiver

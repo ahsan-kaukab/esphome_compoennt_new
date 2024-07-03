@@ -147,7 +147,7 @@ namespace esphome
     uint32_t BTHomeReceiverBaseHub::get_unique_id () {
         // Implement a method to return a unique identifier
         // This is just an example. Adjust as needed.
-        return 0;
+        return 97;
         //return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(this));
     }
     uint32_t BTHomeReceiverBaseHub::on_mqtt_message(const std::string &topic, const std::string &payload) {
@@ -164,6 +164,9 @@ namespace esphome
       ESP_LOGI(TAG, "\n\n");
       ESP_LOGI(TAG, "Storing in NVS \n\n");
       ESP_LOGI(TAG, "\n\n");
+
+      //this->load_whitelist();
+      delay(1000);
       // Update whitelist
       if (json.containsKey("ble") && json["ble"].containsKey("wl")) {
         std::vector<BLEDevice> new_whitelist;
@@ -198,11 +201,11 @@ namespace esphome
       }
       delay(1000);  
       ESP_LOGI(TAG, "I think write is successfull %s", json_str.c_str());  
-      StaticJsonDocument<512> json;
+      StaticJsonDocument<90> json;
       //DeserializationError error = deserializeJson(json, json_str.c_str());
-      DeserializationError error = deserializeJson(json, json_str);
+      DeserializationError error = deserializeJson(json, json_str.c_str());
       if (error) {
-        ESP_LOGE(TAG, "Failed to parse JSON from NVS");
+        ESP_LOGE(TAG, "Failed to parse JSON from NVS %s", error.c_str());
         return 0;
       }
       
@@ -223,7 +226,7 @@ namespace esphome
     uint32_t BTHomeReceiverBaseHub::save_whitelist() {
    // Assuming you have a DynamicJsonDocument initialized with sufficient size
       //this->nvs_whitelist = global_preferences->make_preference(512, this->get_unique_id());
-      DynamicJsonDocument jsonDoc(512);
+      DynamicJsonDocument jsonDoc(90);
       // Create the root JSON object
       JsonObject root = jsonDoc.to<JsonObject>();
       // Create a nested object for "ble"
@@ -252,7 +255,7 @@ namespace esphome
       } else {
           ESP_LOGE(TAG, "Failed to save whitelist");
       }
-      //this->load_whitelist();
+      this->load_whitelist();
       delay(500);
       //ESP_LOGI(TAG, "just anther test");
       //delay(2000);
@@ -262,7 +265,7 @@ namespace esphome
       //   return;
       // }
       // ESP_LOGI(TAG, "I think write is successfull %s", json_str.c_str());
-      delay(1000);
+      //delay(1000);
       //this->load_whitelist();
       return 0;
 
